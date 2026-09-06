@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="100%" height="100%">
+  <defs>
+    <filter id="spiderGlowThick" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <g fill="#e2242f" stroke="#e2242f" stroke-width="12" stroke-linejoin="round" stroke-linecap="round" filter="url(#spiderGlowThick)">
+    <!-- Central Head & Abdomen Body -->
+    <path d="M 500,285 C 485,270 468,255 458,240 C 472,232 488,228 500,228 C 512,228 528,232 542,240 C 532,255 515,270 500,285 Z" fill-opacity="0.8" />
+    <path d="M 500,295 C 475,320 468,375 480,430 C 490,465 500,490 500,490 C 500,490 510,465 520,430 C 532,375 525,320 500,295 Z" fill-opacity="0.85" />
+    
+    <!-- Top Mandibles -->
+    <path d="M 490,230 C 485,212 472,202 462,206 C 470,220 484,225 490,230 Z" fill-opacity="0.9" />
+    <path d="M 510,230 C 515,212 528,202 538,206 C 530,220 516,225 510,230 Z" fill-opacity="0.9" />
+
+    <!-- Leg 1 (Top Left) -->
+    <path d="M 475,250 C 438,205 425,145 418,115 C 432,135 452,185 482,242 Z" fill-opacity="0.4" stroke-width="14" />
+    <path d="M 418,115 C 408,135 372,225 360,270 C 352,290 338,325 338,325 L 350,330 C 352,320 382,240 428,135 Z" fill-opacity="0.4" stroke-width="14" />
+
+    <!-- Leg 1 (Top Right) -->
+    <path d="M 525,250 C 562,205 575,145 582,115 C 568,135 548,185 518,242 Z" fill-opacity="0.4" stroke-width="14" />
+    <path d="M 582,115 C 592,135 628,225 640,270 C 648,290 662,325 662,325 L 650,330 C 648,320 618,240 572,135 Z" fill-opacity="0.4" stroke-width="14" />
+
+    <!-- Leg 2 (Upper Mid Left) -->
+    <path d="M 470,270 C 400,230 382,170 370,140 C 388,165 418,220 475,262 Z" fill-opacity="0.4" stroke-width="14" />
+    <path d="M 370,140 C 358,195 320,305 308,355 C 300,380 288,420 288,420 L 300,424 C 306,408 340,305 385,180 Z" fill-opacity="0.4" stroke-width="14" />
+
+    <!-- Leg 2 (Upper Mid Right) -->
+    <path d="M 530,270 C 600,230 618,170 630,140 C 612,165 582,220 525,262 Z" fill-opacity="0.4" stroke-width="14" />
+    <path d="M 630,140 C 642,195 680,305 692,355 C 700,380 712,420 712,420 L 700,424 C 694,408 660,305 615,180 Z" fill-opacity="0.4" stroke-width="14" />
+
+    <!-- Leg 3 (Lower Mid Left - Long Sweeping Down) -->
+    <path d="M 478,325 C 405,350 338,400 300,460 C 338,422 418,375 480,345 Z" fill-opacity="0.4" stroke-width="14" />
+    <path d="M 300,460 C 320,520 352,670 375,815 C 382,855 388,905 388,905 L 398,902 C 395,855 368,695 342,525 Z" fill-opacity="0.4" stroke-width="14" />
+
+    <!-- Leg 3 (Lower Mid Right - Long Sweeping Down) -->
+    <path d="M 522,325 C 595,350 662,400 700,460 C 662,422 582,375 520,345 Z" fill-opacity="0.4" stroke-width="14" />
+    <path d="M 700,460 C 680,520 648,670 625,815 C 618,855 612,905 612,905 L 602,902 C 605,855 632,695 658,525 Z" fill-opacity="0.4" stroke-width="14" />
+
+    <!-- Leg 4 (Bottom Rear Left - Longest Pointed Down) -->
+    <path d="M 485,385 C 438,445 388,520 375,580 C 395,530 450,458 488,402 Z" fill-opacity="0.4" stroke-width="14" />
+    <path d="M 375,580 C 395,660 420,830 432,965 C 436,995 438,1030 438,1030 L 448,1028 C 445,980 422,810 400,640 Z" fill-opacity="0.4" stroke-width="14" />
+
+    <!-- Leg 4 (Bottom Rear Right - Longest Pointed Down) -->
+    <path d="M 515,385 C 562,445 612,520 625,580 C 605,530 550,458 512,402 Z" fill-opacity="0.4" stroke-width="14" />
+    <path d="M 625,580 C 605,660 580,830 568,965 C 564,995 562,1030 562,1030 L 552,1028 C 555,980 578,810 600,640 Z" fill-opacity="0.4" stroke-width="14" />
+  </g>
+</svg>

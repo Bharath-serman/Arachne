@@ -1,0 +1,707 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * CINEMATIC BROADCAST DESIGN SYSTEM
+ * Dark, film-grain, CRT broadcast aesthetic.
+ * All colors are oklch semantic tokens. Never hardcode colors in components.
+ */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 2px);
+  --radius-md: var(--radius);
+  --radius-lg: calc(var(--radius) + 2px);
+  --radius-xl: calc(var(--radius) + 6px);
+
+  --font-display: "Oswald", "Arial Narrow", sans-serif;
+  --font-body: "Barlow Condensed", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Signature tokens */
+  --color-void: var(--void);
+  --color-ember: var(--ember);
+  --color-ember-deep: var(--ember-deep);
+  --color-mint: var(--mint);
+  --color-signal: var(--signal);
+  --color-verse: var(--verse);
+  --color-verse-deep: var(--verse-deep);
+  --color-casing: var(--casing);
+}
+
+:root {
+  --radius: 0.125rem;
+
+  --void: oklch(0.055 0.002 0);
+  --background: oklch(0.06 0.003 20);
+  --foreground: oklch(0.9 0.008 200);
+  --card: oklch(0.105 0.004 25);
+  --card-foreground: oklch(0.9 0.008 200);
+  --popover: oklch(0.09 0.004 25);
+  --popover-foreground: oklch(0.9 0.008 200);
+
+  --primary: oklch(0.9 0.06 178);
+  --primary-foreground: oklch(0.09 0.01 200);
+  --secondary: oklch(0.16 0.006 25);
+  --secondary-foreground: oklch(0.86 0.008 200);
+  --muted: oklch(0.14 0.005 25);
+  --muted-foreground: oklch(0.56 0.01 210);
+  --accent: oklch(0.55 0.21 30);
+  --accent-foreground: oklch(0.96 0.01 60);
+  --destructive: oklch(0.55 0.22 27);
+  --destructive-foreground: oklch(0.96 0.01 60);
+  --border: oklch(1 0 0 / 8%);
+  --input: oklch(1 0 0 / 12%);
+  --ring: oklch(0.8 0.07 178);
+
+  --ember: oklch(0.6 0.22 32);
+  --ember-deep: oklch(0.38 0.17 28);
+  --mint: oklch(0.9 0.07 172);
+  --signal: oklch(0.72 0.04 200);
+  --casing: oklch(0.19 0.008 60);
+  --verse: oklch(0.62 0.24 268);
+  --verse-deep: oklch(0.34 0.2 272);
+
+
+
+  --glow-mint: 0 0 24px color-mix(in oklab, var(--mint) 30%, transparent);
+  --glow-ember: 0 0 90px color-mix(in oklab, var(--ember) 35%, transparent);
+  --light-ember:
+    radial-gradient(
+      closest-side,
+      color-mix(in oklab, var(--ember) 55%, transparent),
+      transparent 100%
+    );
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    background-color: var(--color-void);
+  }
+
+  body {
+    background-color: var(--color-void);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--mint) 40%, transparent);
+    color: var(--foreground);
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 0.88;
+  }
+}
+
+/* ---------- Film + broadcast atmosphere ---------- */
+
+.film-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+  animation: grain-shift 0.6s steps(3) infinite;
+}
+
+.scanlines {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    color-mix(in oklab, var(--void) 55%, transparent) 0px,
+    color-mix(in oklab, var(--void) 55%, transparent) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+.vignette-frame {
+  background:
+    radial-gradient(ellipse at center, transparent 45%, color-mix(in oklab, var(--void) 92%, transparent) 100%);
+}
+
+.label-mono {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+
+.display-xl {
+  font-family: var(--font-display);
+  font-weight: 200;
+  text-transform: uppercase;
+  line-height: 0.82;
+  letter-spacing: -0.02em;
+  font-size: clamp(3rem, 11vw, 12rem);
+}
+
+.display-giant {
+  font-family: var(--font-display);
+  font-weight: 200;
+  text-transform: uppercase;
+  line-height: 0.78;
+  letter-spacing: -0.03em;
+  font-size: clamp(1.65rem, 10.5vw, 11rem);
+  white-space: nowrap;
+  max-inline-size: 100%;
+}
+
+@keyframes grain-shift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  33% {
+    transform: translate3d(-2%, 1%, 0);
+  }
+  66% {
+    transform: translate3d(1%, -2%, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes signal-flicker {
+  0%,
+  100% {
+    opacity: 0.9;
+  }
+  47% {
+    opacity: 0.78;
+  }
+  49% {
+    opacity: 1;
+  }
+  52% {
+    opacity: 0.66;
+  }
+  54% {
+    opacity: 0.95;
+  }
+}
+
+@keyframes ember-drift {
+  0% {
+    transform: translate3d(-4%, 2%, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(5%, -3%, 0) scale(1.12);
+  }
+  100% {
+    transform: translate3d(-4%, 2%, 0) scale(1);
+  }
+}
+
+@keyframes tear-sweep {
+  0% {
+    transform: translateY(-20%);
+    opacity: 0;
+  }
+  8% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(120%);
+    opacity: 0;
+  }
+}
+
+/* ---------- CRT surface ---------- */
+ 
+.crt-shell {
+  background:
+    linear-gradient(
+      165deg,
+      color-mix(in oklab, var(--casing) 90%, transparent),
+      color-mix(in oklab, var(--void) 88%, transparent)
+    );
+  border: 1px solid color-mix(in oklab, var(--foreground) 8%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in oklab, var(--foreground) 10%, transparent),
+    0 40px 120px -40px color-mix(in oklab, var(--void) 90%, transparent);
+}
+
+.crt-screen {
+  position: relative;
+  overflow: hidden;
+  border-radius: 2.2rem / 3.4rem;
+  background: var(--void);
+  box-shadow:
+    inset 0 0 60px color-mix(in oklab, var(--void) 90%, transparent),
+    inset 0 0 140px color-mix(in oklab, var(--void) 70%, transparent);
+}
+
+.ember-light {
+  background: var(--light-ember);
+  filter: blur(80px);
+  animation: ember-drift 22s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* ---------- Giant word legibility ---------- */
+/* Static visual separation only; GiantType's GSAP motion remains unchanged. */
+.giant-word-stage {
+  isolation: isolate;
+}
+
+.giant-word-backdrop {
+  position: absolute;
+  inset: 19% -8% 18%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, transparent 0%, color-mix(in oklab, var(--void) 68%, transparent) 16%, color-mix(in oklab, var(--void) 82%, transparent) 50%, color-mix(in oklab, var(--void) 68%, transparent) 84%, transparent 100%),
+    radial-gradient(ellipse at 50% 50%, color-mix(in oklab, var(--void) 84%, transparent) 0%, transparent 74%);
+  filter: blur(10px);
+}
+
+.giant-word {
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+  paint-order: stroke fill;
+}
+
+.giant-word-light {
+  -webkit-text-stroke: 1.3px color-mix(in oklab, var(--void) 90%, transparent);
+  text-shadow:
+    0 1px 0 color-mix(in oklab, var(--foreground) 28%, transparent),
+    0 7px 0 color-mix(in oklab, var(--void) 78%, transparent),
+    0 12px 24px color-mix(in oklab, var(--void) 90%, transparent),
+    0 0 20px color-mix(in oklab, var(--foreground) 13%, transparent);
+}
+
+.giant-word-ember {
+  -webkit-text-stroke: 1.35px color-mix(in oklab, var(--void) 88%, transparent);
+  text-shadow:
+    0 2px 0 color-mix(in oklab, var(--ember) 42%, transparent),
+    0 8px 0 color-mix(in oklab, var(--void) 85%, transparent),
+    0 14px 28px color-mix(in oklab, var(--void) 92%, transparent),
+    0 0 18px color-mix(in oklab, var(--ember) 40%, transparent);
+}
+
+/* Preserve the motion opacity curves while preventing the utility alpha colors from fading the letters twice. */
+.giant-word {
+  font-weight: 300;
+}
+
+/* The readability scrim must sit above the animated scene but below the word layers. */
+.giant-word-backdrop {
+  inset: 6% -8% 12%;
+  z-index: 0;
+  background:
+    linear-gradient(90deg, transparent 0%, color-mix(in oklab, var(--void) 82%, transparent) 14%, color-mix(in oklab, var(--void) 91%, transparent) 50%, color-mix(in oklab, var(--void) 82%, transparent) 86%, transparent 100%),
+    radial-gradient(ellipse at 50% 40%, color-mix(in oklab, var(--void) 91%, transparent) 0%, transparent 76%);
+}
+
+.giant-note {
+  position: relative;
+  z-index: 1;
+}
+
+.giant-word-light {
+  color: color-mix(in oklab, var(--foreground) 96%, white) !important;
+}
+
+.giant-word-ember {
+  color: color-mix(in oklab, var(--ember) 78%, var(--foreground)) !important;
+}
+
+/* Keep each moving phrase intrinsically sized: GSAP xPercent now travels the text width, not a full-viewport block. */
+.giant-word {
+  inline-size: max-content;
+  max-inline-size: none;
+  margin-inline: auto;
+}
+
+@media (max-width: 640px) {
+  .display-giant {
+    font-size: clamp(1.15rem, 5.9vw, 1.65rem);
+  }
+}
+
+/* ---------- Silk-letter lift transition ---------- */
+.landing-overlay {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  contain: layout paint;
+}
+
+.landing-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 8%;
+  border: 1px solid color-mix(in oklab, var(--foreground) 32%, transparent);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateZ(-160px) rotateX(0deg) scale(0.86);
+  box-shadow: inset 0 0 80px color-mix(in oklab, var(--mint) 7%, transparent), 0 0 90px color-mix(in oklab, var(--ember) 10%, transparent);
+}
+
+.landing-overlay--leaving {
+  transform-style: preserve-3d;
+  animation: landing-overlay-lift 2.9s cubic-bezier(0.22, 0.9, 0.22, 1) both;
+}
+
+.landing-overlay--reveal-active .landing-letter {
+  animation: landing-letter-reveal 1.85s cubic-bezier(0.645, 0.045, 0.355, 1) both;
+  animation-delay: var(--landing-letter-reveal-delay);
+}
+
+.landing-overlay--reveal-active .landing-tether-group {
+  animation: landing-tether-group-reveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--landing-group-reveal-delay);
+}
+
+.landing-overlay--reveal-active .landing-tether-thread {
+  animation: landing-tether-thread-draw 1.06s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+.landing-overlay--reveal-active .landing-tether-silk {
+  animation-delay: var(--landing-silk-reveal-delay);
+}
+
+.landing-overlay--reveal-active .landing-tether-echo {
+  animation-delay: var(--landing-echo-reveal-delay);
+}
+
+.landing-overlay--reveal-active .landing-tether-group {
+  animation-name: landing-tether-group-reveal, landing-tether-group-fade;
+  animation-duration: 0.5s, 0.68s;
+  animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1), cubic-bezier(0.55, 0.085, 0.68, 0.53);
+  animation-fill-mode: both, both;
+  animation-delay: var(--landing-group-reveal-delay), var(--landing-group-exit-delay);
+}
+
+.landing-overlay--reveal-active .landing-meta {
+  animation: landing-meta-reveal 0.48s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation-delay: var(--landing-meta-reveal-delay);
+}
+
+.landing-overlay--leave-active .landing-letter {
+  animation: landing-letter-leave 0.92s cubic-bezier(0.9, 0.05, 0.8, 0.7) both;
+  animation-delay: var(--landing-letter-leave-delay);
+}
+
+.landing-overlay--leave-active .landing-tether-group {
+  animation: landing-tether-group-pull 0.24s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation-delay: var(--landing-group-pull-delay);
+}
+
+.landing-overlay--leave-active .landing-tether-thread {
+  animation: landing-tether-thread-draw 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+.landing-overlay--leave-active .landing-tether-silk {
+  animation-delay: var(--landing-silk-leave-delay);
+}
+
+.landing-overlay--leave-active .landing-tether-echo {
+  animation-delay: var(--landing-echo-leave-delay);
+}
+
+.landing-overlay--leave-active .landing-meta {
+  animation: landing-meta-leave 0.3s cubic-bezier(0.55, 0.085, 0.68, 0.53) both;
+  animation-delay: 1.252s;
+}
+
+.landing-overlay--leaving::before {
+  animation: landing-silk-lift-frame 2.25s cubic-bezier(0.22, 0.9, 0.22, 1) both;
+}
+
+.landing-tether-group {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.landing-tether-thread {
+  vector-effect: non-scaling-stroke;
+  filter: drop-shadow(0 0 5px color-mix(in oklab, var(--mint) 26%, transparent));
+}
+
+.landing-overlay--leaving .landing-letter {
+  text-shadow: 0 0 18px color-mix(in oklab, var(--mint) 48%, transparent);
+}
+
+@keyframes landing-letter-reveal {
+  0% {
+    opacity: 0.06;
+    filter: blur(12px);
+    transform: translate3d(var(--landing-start-x), var(--landing-start-y), var(--landing-start-z)) rotate(var(--landing-start-rotation)) scale(var(--landing-start-scale));
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0) rotate(0) scale(1);
+  }
+}
+
+@keyframes landing-letter-leave {
+  0% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate3d(0, 0, 0) rotate(0) scale(1);
+  }
+  100% {
+    opacity: 0.08;
+    filter: blur(10px);
+    transform: translate3d(var(--landing-start-x), var(--landing-start-y), var(--landing-start-z)) rotate(var(--landing-start-rotation)) scale(var(--landing-start-scale));
+  }
+}
+
+@keyframes landing-tether-group-reveal {
+  0% {
+    opacity: 0;
+    filter: blur(8px);
+    transform: scale(2.1);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
+}
+
+@keyframes landing-tether-group-fade {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes landing-tether-group-pull {
+  0% {
+    opacity: 0;
+    filter: blur(0);
+    transform: scale(1);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1.04);
+  }
+}
+
+@keyframes landing-tether-thread-draw {
+  0% {
+    stroke-dashoffset: 1000;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes landing-meta-reveal {
+  0% {
+    opacity: 0;
+    filter: blur(7px);
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes landing-meta-leave {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes landing-overlay-lift {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) rotateX(0deg) scale(1);
+    filter: blur(0);
+  }
+  58% {
+    opacity: 0.98;
+    transform: translate3d(0, -6%, 30px) rotateX(4deg) scale(1.015);
+    filter: blur(0.4px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(0, -118%, 220px) rotateX(18deg) scale(1.12);
+    filter: blur(10px);
+  }
+}
+
+@keyframes landing-silk-lift-frame {
+  0% {
+    opacity: 0;
+    transform: translateZ(-160px) rotateX(0deg) scale(0.86);
+  }
+  18% {
+    opacity: 0.72;
+  }
+  62% {
+    opacity: 0.46;
+    transform: translateY(-7%) translateZ(40px) rotateX(9deg) scale(1.02);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-118%) translateZ(220px) rotateX(18deg) scale(1.12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-overlay--leaving,
+  .landing-overlay--leaving::before {
+    animation-duration: 1ms !important;
+  }
+
+  .landing-overlay--reduced-motion .landing-letter,
+  .landing-overlay--reduced-motion .landing-meta {
+    opacity: 1;
+    filter: none;
+    transform: none;
+    animation: none;
+  }
+}
+
+/* ---------- Web-Hanging Heading Styles & Physics ---------- */
+@keyframes web-hang-sway {
+  0%, 100% {
+    transform: rotate(0deg) translateY(0px);
+  }
+  30% {
+    transform: rotate(0.4deg) translateY(1.2px);
+  }
+  70% {
+    transform: rotate(-0.35deg) translateY(-0.6px);
+  }
+}
+
+@keyframes web-sway-tilt-left {
+  0%, 100% {
+    transform: rotate(var(--base-rot, -10deg)) translateY(0px);
+  }
+  50% {
+    transform: rotate(calc(var(--base-rot, -10deg) + 3.5deg)) translateY(4px);
+  }
+}
+
+@keyframes web-sway-tilt-right {
+  0%, 100% {
+    transform: rotate(var(--base-rot, 10deg)) translateY(0px);
+  }
+  50% {
+    transform: rotate(calc(var(--base-rot, 10deg) - 3.8deg)) translateY(4.5px);
+  }
+}
+
+@keyframes web-slack-drift {
+  0%, 100% {
+    transform: translateY(0px) rotate(var(--base-rot, 0deg));
+  }
+  35% {
+    transform: translateY(5px) rotate(calc(var(--base-rot, 0deg) + 2deg));
+  }
+  70% {
+    transform: translateY(-3px) rotate(calc(var(--base-rot, 0deg) - 1.8deg));
+  }
+}
+
+@keyframes web-hang-react {
+  0% {
+    transform: rotate(0deg) translateY(0);
+  }
+  20% {
+    transform: rotate(1.15deg) translateY(2.5px);
+  }
+  45% {
+    transform: rotate(-0.85deg) translateY(-1px);
+  }
+  70% {
+    transform: rotate(0.35deg) translateY(0.8px);
+  }
+  100% {
+    transform: rotate(0deg) translateY(0);
+  }
+}
+
+@keyframes web-dew-glisten {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.25);
+  }
+}
+
+.animate-web-hang-sway {
+  animation: web-hang-sway 7.5s ease-in-out infinite;
+  transform-origin: 50% -24px;
+}
+
+.animate-web-hang-react {
+  animation: web-hang-react 0.85s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.animate-web-dew {
+  animation: web-dew-glisten 4s ease-in-out infinite;
+}
+
+.animate-web-dew-alt {
+  animation: web-dew-glisten 4.8s ease-in-out infinite 1.8s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-web-hang-sway,
+  .animate-web-hang-react,
+  .animate-web-sway-tilt-left,
+  .animate-web-sway-tilt-right,
+  .animate-web-slack-drift {
+    animation: none !important;
+  }
+}
+
