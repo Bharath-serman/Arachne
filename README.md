@@ -40,7 +40,7 @@ Arachne is designed to feel less like a website and more like an **interactive f
                                │
                          CINEMATIC FLOW
 
-## ✦ Core Features
+## Core Features
 
 | Feature | Description |
 |:---|:---|
@@ -69,5 +69,12 @@ Arachne is designed to feel less like a website and more like an **interactive f
 | **ScrollTrigger** | Scroll-based animation |
 | **Lenis** | Smooth scrolling |
 | **GLSL / CSS** | CRT and visual effects |
+```
 
----
+## ScreenShots
+
+<img width="1917" height="988" alt="image" src="https://github.com/user-attachments/assets/75ed8587-4ce5-4eaf-8d0f-7c867831f0c0" />
+
+<img width="1897" height="987" alt="image" src="https://github.com/user-attachments/assets/8c5366bf-1e60-4019-bf14-1e73747c9468" />
+
+<img width="1910" height="960" alt="image" src="https://github.com/user-attachments/assets/00463745-15a2-444e-b3c7-92f0012a464c" />
