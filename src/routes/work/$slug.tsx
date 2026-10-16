@@ -59,13 +59,13 @@ function ProjectDetail() {
         </div>
 
         <div className="mt-20 grid gap-12 border-t border-white/20 pt-10 md:grid-cols-12 md:pt-14">
-          <div className="md:col-span-7"><p className="label-mono text-mint/80">The brief</p><h2 className="mt-4 font-display text-4xl font-extralight md:text-6xl">A precise signal,<br />not a louder one.</h2><p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">{project.challenge}</p></div>
+          <div className="md:col-span-7"><p className="label-mono text-mint/80">The brief</p><h2 className="mt-4 font-display text-4xl font-extralight md:text-6xl"></h2><p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">{project.challenge}</p></div>
           <div className="md:col-span-4 md:col-start-9"><p className="label-mono text-mint/80">Outcome</p><p className="mt-4 text-base leading-relaxed text-foreground/80">{project.outcome}</p></div>
         </div>
 
         <div className="mt-20 grid gap-10 border-t border-white/20 pt-10 md:grid-cols-12 md:pt-14">
           <div className="md:col-span-6"><p className="label-mono text-mint/80">Services</p><ul className="mt-5 divide-y divide-white/15 border-y border-white/15">{project.services.map((service, index) => <li key={service} className="flex items-center justify-between py-3 font-display text-2xl font-light text-foreground/90"><span>{service}</span><span className="label-mono text-foreground/40">0{index + 1}</span></li>)}</ul></div>
-          <div className="md:col-span-4 md:col-start-9"><p className="label-mono text-mint/80">Credits</p><ul className="mt-5 space-y-3">{project.credits.map((credit) => <li key={credit} className="border-l border-ember/70 pl-4 text-sm text-foreground/70">{credit}</li>)}</ul><a href="/#contact" className="mt-10 inline-flex border-b border-ember pb-1 label-mono text-ember transition-colors hover:text-foreground">Start a related project ↗</a></div>
+          {/* <div className="md:col-span-4 md:col-start-9"><p className="label-mono text-mint/80">Credits</p><ul className="mt-5 space-y-3">{project.credits.map((credit) => <li key={credit} className="border-l border-ember/70 pl-4 text-sm text-foreground/70">{credit}</li>)}</ul><a href="/#contact" className="mt-10 inline-flex border-b border-ember pb-1 label-mono text-ember transition-colors hover:text-foreground">Start a related project ↗</a></div> */}
         </div>
       </section>
 

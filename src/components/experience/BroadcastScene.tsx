@@ -6,6 +6,7 @@ import { screenVertex, glowFragment } from "./crt-shaders";
 import { makeWebTexture, makeWebCardTexture, makeStrandVeilTexture } from "./web-texture";
 import { PROFILE_CARDS } from "./profile-cards";
 import { Spider } from "./Spider";
+//import { SpiderDnaMatrix } from "./SpiderDnaMatrix";
 
 type WebConfig = {
   pos: [number, number, number];
@@ -435,7 +436,7 @@ function SpiderWeb({ config }: { config: WebConfig }) {
             scale={config.scale * (config.hero ? 2.5 : 1.8)}
             speed={0.45 + (config.seed % 4) * 0.05}
             phase={(config.seed % 7) / 7}
-            hero={config.hero}
+            hero={Boolean(config.hero)}
             crawlPoint={crawlPoint}
             webOffset={webSpringOffset}
           />
@@ -636,6 +637,7 @@ function Environment({ mobile }: { mobile: boolean }) {
       <pointLight position={[-6, 4, 4]} intensity={22} color="#ff442a" distance={45} decay={2} />
       <pointLight position={[7, -3, -12]} intensity={14} color="#6f9dff" distance={40} decay={2} />
       <EmberLight />
+      {/* <SpiderDnaMatrix /> */}
       {strands.map((s, i) => (
         <Strand key={i} from={s.from} to={s.to} seed={s.seed} />
       ))}
@@ -659,7 +661,7 @@ export default function BroadcastScene() {
       gl={{ antialias: !mobile, powerPreference: "high-performance", alpha: false }}
       camera={{ position: [0, 0.2, 6.5], fov: 42, near: 0.1, far: 120 }}
       onCreated={({ gl }) => {
-        gl.setClearColor("#050505");
+        gl.setClearColor("#000000");
       }}
     >
       <Environment mobile={mobile} />

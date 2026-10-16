@@ -223,6 +223,9 @@ export function Spider({
   const asset = useLoader(FBXLoader, "/Mecha_Spider.fbx");
 
   const { animationRig, legBones } = useMemo(() => {
+    if (!colorTexture || !normalTexture || !roughnessTexture || !emissiveTexture) {
+      return { animationRig: new THREE.Group(), legBones: [] };
+    }
     colorTexture.colorSpace = THREE.SRGBColorSpace;
     colorTexture.anisotropy = 4;
     colorTexture.needsUpdate = true;

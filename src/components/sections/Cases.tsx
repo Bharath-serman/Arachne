@@ -73,7 +73,7 @@ export function Cases() {
       <div className="sticky top-0 flex h-svh items-center overflow-hidden py-[6vh] [perspective:1900px]">
         <div className="mx-auto flex h-full w-full max-w-[108rem] flex-col px-6 md:px-10">
           <div className="frame-gallery-heading z-20 flex items-end justify-between gap-6">
-            <div><p className="label-mono mb-4 text-mint/75">Selected works / black frame archive</p><h2 className="font-display text-5xl font-extralight text-foreground/95 md:text-7xl">Our cases</h2></div>
+            <div><p className="label-mono mb-4 text-mint/75">Selected works / Arachnophobia</p><h2 className="font-display text-5xl font-extralight text-foreground/95 md:text-7xl">My Works</h2></div>
             <p className="hidden max-w-xs text-right text-[11px] leading-relaxed text-foreground/58 md:block">Four case studies. Every folio holds focus before the archive moves on.</p>
           </div>
 

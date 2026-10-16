@@ -271,7 +271,7 @@ export function InteractiveSilkWeb({
       const corners = [
         { x: 0, y: 0 },
         { x: width, y: 0 },
-        { x: 0, height },
+        { x: 0, y: height },
         { x: width, y: height },
         { x: width * 0.5, y: 0 },
         { x: width * 0.5, y: height },

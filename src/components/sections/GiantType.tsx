@@ -94,8 +94,7 @@ export function GiantType() {
           WEAVE YOUR OWN
         </span>
         <p className="giant-note mx-auto mt-16 max-w-md px-6 text-center text-lg text-muted-foreground">
-          Every frame is captured through analog hardware, then rebuilt frame by
-          frame until the signal feels alive again.
+          Weaving logic into intricate webs of code, where technology meets imagination and ideas come alive.
         </p>
       </div>
     </section>
