@@ -1,75 +1,135 @@
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
 import { scrollState, damp } from "@/lib/scroll-state";
 import { SpiderManModel, type SpidermanActionName } from "@/components/spiderman/SpiderManModel";
 
 /**
- * Places the realistic rigged Spider-Man model in the 3D corridor of the main portfolio,
- * complete with dedicated superhero rim and key lighting, reacting dynamically to scroll.
+ * Camera-anchored idle character: waits for scrolling to stop, zips in from
+ * above, holds the full idle animation, then zips upward out as soon as the
+ * user scrolls again.
  */
 export function SpiderManInBroadcast() {
   const groupRef = useRef<THREE.Group>(null);
+  const jumpPoseRef = useRef<THREE.Group>(null);
   const [currentAction, setCurrentAction] = useState<SpidermanActionName>("Idle");
-  const lastAction = useRef<SpidermanActionName>("Idle");
+  const lastProgress = useRef<number | null>(null);
+  const lastScrollTime = useRef(0);
+  const visibleAmount = useRef(0);
+  const previousShowTarget = useRef<boolean | null>(null);
+  const takeoffStartedAt = useRef(0);
+
+  const forward = useMemo(() => new THREE.Vector3(), []);
+  const right = useMemo(() => new THREE.Vector3(), []);
+  const up = useMemo(() => new THREE.Vector3(), []);
+  const target = useMemo(() => new THREE.Vector3(), []);
 
   useFrame((state, dt) => {
-    const d = Math.min(dt, 0.05);
-    const p = scrollState.progress;
+    const delta = Math.min(dt, 0.05);
+    const now = performance.now();
+    const progress = scrollState.progress;
+    const previousProgress = lastProgress.current;
+    const progressChanged =
+      previousProgress !== null && Math.abs(progress - previousProgress) > 0.000003;
+    lastProgress.current = progress;
 
-    // Shift skeletal animations as user journeys down the corridor
-    let nextAction: SpidermanActionName = "Idle";
-    if (p < 0.15) {
-      nextAction = "Idle";
-    } else if (p < 0.42) {
-      nextAction = "Crouch";
-    } else if (p < 0.75) {
-      nextAction = "WebSling";
-    } else {
-      nextAction = "SuperheroLanding";
+    // Use real movement signals, not the decaying velocity tail, so the idle
+    // entrance starts predictably after scrolling actually stops.
+    const scrollSignal = Math.abs(scrollState.rawVelocity) > 0.35 || progressChanged;
+    if (scrollSignal) lastScrollTime.current = now;
+    const scrolling = now - lastScrollTime.current < 140;
+
+    // At the top, show the character on initial load. Elsewhere, wait briefly
+    // for Lenis to settle before beginning the zip-in.
+    const idleLongEnough = now - lastScrollTime.current > 480;
+    const shouldShow = !scrolling && idleLongEnough;
+    const goal = shouldShow ? 1 : 0;
+
+    // Play the acrobatic leap at takeoff, then blend into Dash for the upward zip.
+    if (previousShowTarget.current !== shouldShow) {
+      previousShowTarget.current = shouldShow;
+      takeoffStartedAt.current = shouldShow ? 0 : now;
+      setCurrentAction(shouldShow ? "SuperheroLanding" : "WebSling");
     }
 
-    if (nextAction !== lastAction.current) {
-      lastAction.current = nextAction;
-      setCurrentAction(nextAction);
+    const takeoffElapsed = now - takeoffStartedAt.current;
+    if (
+      !shouldShow &&
+      takeoffStartedAt.current > 0 &&
+      takeoffElapsed > 680 &&
+      currentAction !== "Dash"
+    ) {
+      setCurrentAction("Dash");
     }
 
-    if (groupRef.current) {
-      const cam = state.camera;
-      // Keep Spider-Man in clear view ahead of the camera as it dollys through the corridor
-      const targetZ = cam.position.z - 3.2;
-      groupRef.current.position.z = damp(groupRef.current.position.z, targetZ, 3.2, d);
+    // Hold the actor fully visible through the leap before starting the zip/fade.
+    const zipStarted = shouldShow || takeoffElapsed > 340;
+    const targetAmount = zipStarted ? goal : visibleAmount.current;
+    visibleAmount.current = damp(
+      visibleAmount.current,
+      targetAmount,
+      targetAmount > visibleAmount.current ? 4.2 : 2.8,
+      delta,
+    );
+    if (
+      currentAction !== "Idle" &&
+      (shouldShow ? visibleAmount.current > 0.97 : visibleAmount.current < 0.025)
+    ) {
+      setCurrentAction("Idle");
+    }
 
-      // Subtle parallax response to pointer
-      const targetX = 0.65 + scrollState.pointerX * 0.45;
-      const targetY = -0.25 - scrollState.pointerY * 0.3;
-      groupRef.current.position.x = damp(groupRef.current.position.x, targetX, 2.5, d);
-      groupRef.current.position.y = damp(groupRef.current.position.y, targetY, 2.5, d);
+    const actor = groupRef.current;
+    if (!actor) return;
 
-      // Turn to face the camera lens
-      const targetRotY = -0.35 - scrollState.pointerX * 0.25;
-      groupRef.current.rotation.y = damp(groupRef.current.rotation.y, targetRotY, 2.5, d);
-      groupRef.current.rotation.x = damp(groupRef.current.rotation.x, scrollState.pointerY * 0.12, 2.0, d);
+    const camera = state.camera;
+    camera.updateMatrixWorld();
+    camera.getWorldDirection(forward);
+    right.setFromMatrixColumn(camera.matrixWorld, 0).normalize();
+    up.setFromMatrixColumn(camera.matrixWorld, 1).normalize();
+
+    const shown = visibleAmount.current;
+    const eased = shown * shown * (3 - 2 * shown);
+    const takeoffLift =
+      !shouldShow && takeoffStartedAt.current > 0
+        ? 0.52 * Math.min(1, Math.max(0, takeoffElapsed / 320))
+        : 0;
+    // Fixed camera-space depth and bounded horizontal offset keep the idle
+    // character framed even while the corridor camera moves and turns.
+    target
+      .copy(camera.position)
+      .addScaledVector(forward, 3.25)
+      .addScaledVector(right, 0.1 + scrollState.pointerX * 0.035)
+      .addScaledVector(up, 3.35 * (1 - eased) - 0.16 + takeoffLift);
+
+    actor.position.x = damp(actor.position.x, target.x, 16, delta);
+    actor.position.y = damp(actor.position.y, target.y, 16, delta);
+    actor.position.z = damp(actor.position.z, target.z, 16, delta);
+    actor.quaternion.copy(camera.quaternion);
+    const scale = 1.25 * (0.24 + 0.76 * eased);
+    actor.scale.setScalar(scale);
+    actor.visible = shown > 0.012;
+
+    if (jumpPoseRef.current) {
+      const jumpWeight =
+        !shouldShow && takeoffStartedAt.current > 0 ? Math.max(0, 1 - takeoffElapsed / 360) : 0;
+      jumpPoseRef.current.rotation.x = -0.32 * jumpWeight;
+      jumpPoseRef.current.rotation.z = 0.08 * jumpWeight;
     }
   });
 
   return (
-    <group ref={groupRef} position={[0.65, -0.25, 3.3]} scale={1.05}>
-      {/* --- DEDICATED CINEMATIC SUPERHERO LIGHTING RIG --- */}
-      {/* 1. Key Light (Crisp daylight fill for suit textures) */}
+    <group ref={groupRef} position={[0.1, 3.2, 3.25]} scale={0.3}>
       <directionalLight position={[3, 4, 3]} intensity={4.5} color="#ffffff" />
-
-      {/* 2. Iconic Crimson Spider-Man Rim Backlight */}
       <directionalLight position={[-3, 2, -2]} intensity={6.5} color="#ff2a3a" />
-
-      {/* 3. Electric Cyan Rim Fill (Backlight contrast) */}
       <directionalLight position={[3, -1, -2]} intensity={4.0} color="#0088ff" />
-
-      {/* 4. Mask & Chest Insignia Fill */}
       <pointLight position={[0, 0.4, 1.8]} intensity={1.8} color="#ffffff" distance={5} />
 
-      {/* Realistic Spider-Man Character */}
-      <SpiderManModel currentAction={currentAction} />
+      <group ref={jumpPoseRef}>
+        <SpiderManModel
+          currentAction={currentAction}
+          timeScale={currentAction === "Dash" ? 0.72 : 0.9}
+        />
+      </group>
     </group>
   );
 }

@@ -1,129 +1,168 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
 import * as THREE from "three";
-import { useAnimations } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
-export type SpidermanActionName = "Idle" | "Crouch" | "WebSling" | "SuperheroLanding";
+export type SpidermanActionName =
+  "Idle" | "Crouch" | "WebSling" | "WebShoot" | "Dash" | "Flip" | "Attack" | "SuperheroLanding";
 
-interface SpiderManModelProps {
+export interface SpiderManModelProps {
   currentAction?: SpidermanActionName;
+  timeScale?: number;
   modelRef?: React.RefObject<THREE.Group | null>;
-  modelUrl?: string;
+  modelUrl?: string | undefined;
   scale?: number;
   position?: [number, number, number];
   rotation?: [number, number, number];
+  onClick?: () => void;
+  onHandBone?: ((bone: THREE.Object3D) => void) | undefined;
 }
 
 /**
  * Maps high-level action names to the skeletal clips embedded in the realistic Spider-Man GLB.
+ * WebSling uses @skill04 (acrobatic forward leap) and @dash (aerodynamic web dive),
+ * excluding the @skill02 weapon-twirling prop animation.
  */
 const ANIM_CLIP_KEYWORDS: Record<SpidermanActionName, string[]> = {
-  Idle: ["@idle", "idle", "@wait", "wait"],
-  Crouch: ["@wait", "wait", "@stun", "@idle"],
-  WebSling: ["@skill02", "@skill01", "@skill03", "@atk-01", "dash", "skill"],
-  SuperheroLanding: ["@skill06", "@skill05-03", "@atk-02", "hit", "skill"],
+  Idle: ["@idle", "idle"],
+  Crouch: ["@wait", "wait", "@stun"],
+  WebSling: ["@skill04", "skill04"],
+  WebShoot: ["@skill01", "skill01", "@atk-01"],
+  Dash: ["@dash", "dash"],
+  Flip: ["@skill03", "skill03", "@skill04"],
+  Attack: ["@atk-01", "atk-01", "@atk-02", "atk-02"],
+  SuperheroLanding: ["@skill06", "skill06", "@skill05-03"],
 };
 
 /**
- * Component that binds and plays realistic skeletal animations from the loaded GLB.
+ * Direct AnimationMixer directly mounted on the loaded scene root.
  */
-function RealisticGltfSpiderMan({
+function DirectMixerSpiderMan({
   scene,
   animations,
   currentAction = "Idle",
+  timeScale = 1.0,
+  onHandBone,
 }: {
   scene: THREE.Group;
   animations: THREE.AnimationClip[];
   currentAction?: SpidermanActionName;
+  timeScale?: number;
+  onHandBone?: ((bone: THREE.Object3D) => void) | undefined;
 }) {
-  const localRef = useRef<THREE.Group>(null);
-  const { actions } = useAnimations(animations, localRef);
-  const prevActionRef = useRef<SpidermanActionName | null>(null);
+  const mixer = useMemo(() => new THREE.AnimationMixer(scene), [scene]);
+  const actionsMap = useRef<Map<string, THREE.AnimationAction>>(new Map());
+  const activeActionRef = useRef<THREE.AnimationAction | null>(null);
 
   useEffect(() => {
-    if (!actions || Object.keys(actions).length === 0) return;
+    const map = actionsMap.current;
+    map.clear();
 
-    // Find the best matching skeletal animation clip
+    animations.forEach((clip) => {
+      // Exclude camera helper tracks
+      if (!clip.name.includes("_cam")) {
+        let playableClip = clip;
+        if (clip.name.toLowerCase().includes("skill04")) {
+          // Keep the leap's full skeletal pose, but remove pelvis root travel.
+          // The broadcast camera rig controls actor movement; the original
+          // root translation can otherwise throw the character out of frame.
+          playableClip = clip.clone();
+          playableClip.tracks = playableClip.tracks.filter(
+            (track) =>
+              !(/pelvis/i.test(track.name) && /(\.position|\.translation)$/i.test(track.name)),
+          );
+        }
+        const action = mixer.clipAction(playableClip, scene);
+        map.set(clip.name, action);
+      }
+    });
+
+    // Locate the right hand bone (Bip001_R_Hand_047)
+    const rightHand =
+      scene.getObjectByName("Bip001_R_Hand_047") ||
+      scene.getObjectByName("Bip001_L_Hand_020") ||
+      scene.getObjectByName("Bip001_R_Forearm_046");
+    if (rightHand && onHandBone) {
+      onHandBone(rightHand);
+    }
+
+    return () => {
+      mixer.stopAllAction();
+    };
+  }, [mixer, scene, animations, onHandBone]);
+
+  useFrame((_, dt) => {
+    mixer.update(dt * Math.max(0.2, timeScale));
+  });
+
+  useEffect(() => {
+    const map = actionsMap.current;
+    if (map.size === 0) return;
+
     const keywords = ANIM_CLIP_KEYWORDS[currentAction] || [];
-    let matchedActionName: string | null = null;
+    let matchedAction: THREE.AnimationAction | null = null;
 
     for (const kw of keywords) {
-      const found = Object.keys(actions).find((name) =>
-        name.toLowerCase().includes(kw.toLowerCase())
-      );
-      if (found) {
-        matchedActionName = found;
-        break;
+      for (const [name, act] of map.entries()) {
+        if (!name.includes("_cam") && name.toLowerCase().includes(kw.toLowerCase())) {
+          matchedAction = act;
+          break;
+        }
       }
+      if (matchedAction) break;
     }
 
-    if (!matchedActionName) {
-      matchedActionName = Object.keys(actions)[0]!;
+    if (!matchedAction) {
+      matchedAction = map.values().next().value || null;
     }
 
-    const currentClip = matchedActionName ? actions[matchedActionName] : null;
-
-    // Previous clip for cross-fade blending
-    const prevKeywords = prevActionRef.current ? ANIM_CLIP_KEYWORDS[prevActionRef.current] : [];
-    let prevActionName: string | null = null;
-    for (const kw of prevKeywords) {
-      const found = Object.keys(actions).find((name) =>
-        name.toLowerCase().includes(kw.toLowerCase())
-      );
-      if (found) {
-        prevActionName = found;
-        break;
-      }
-    }
-    const prevClip = prevActionName ? actions[prevActionName] : null;
-
-    if (currentClip) {
-      currentClip.reset();
-      currentClip.enabled = true;
-      currentClip.setEffectiveTimeScale(1);
-      currentClip.setEffectiveWeight(1);
+    if (matchedAction && matchedAction !== activeActionRef.current) {
+      const prev = activeActionRef.current;
+      matchedAction.reset();
+      matchedAction.enabled = true;
+      matchedAction.setEffectiveTimeScale(1);
+      matchedAction.setEffectiveWeight(1);
 
       if (currentAction === "SuperheroLanding") {
-        currentClip.setLoop(THREE.LoopOnce, 1);
-        currentClip.clampWhenFinished = true;
+        matchedAction.setLoop(THREE.LoopOnce, 1);
+        matchedAction.clampWhenFinished = true;
+      } else if (currentAction === "Attack" || currentAction === "WebShoot") {
+        matchedAction.setLoop(THREE.LoopOnce, 1);
       } else {
-        currentClip.setLoop(THREE.LoopRepeat, Infinity);
+        matchedAction.setLoop(THREE.LoopRepeat, Infinity);
       }
 
-      if (prevClip && prevClip !== currentClip) {
-        currentClip.crossFadeFrom(prevClip, 0.45, true);
+      if (prev && prev !== matchedAction) {
+        matchedAction.crossFadeFrom(prev, 0.35, true);
       } else {
-        currentClip.fadeIn(0.25);
+        matchedAction.fadeIn(0.2);
       }
 
-      currentClip.play();
+      matchedAction.play();
+      activeActionRef.current = matchedAction;
     }
+  }, [currentAction, mixer]);
 
-    prevActionRef.current = currentAction;
-  }, [currentAction, actions]);
-
-  return (
-    <group ref={localRef}>
-      <primitive object={scene} />
-    </group>
-  );
+  return <primitive object={scene} />;
 }
 
 /**
  * Universal Spider-Man Component
  * - Automatically loads the advanced rigged realistic Spider-Man 3D model (/models/spiderman.glb).
- * - Properly configured at natural human scale (~1.95m height).
- * - Filters out detached street props (such as subterranean manhole geometry at y = -17).
- * - Enables shadow casting/receiving on all suit segments.
- * - Handles smooth skeletal animation cross-fading for Idle, Crouch, WebSling, and SuperheroLanding.
+ * - Filters out all weapon/street props (wp, weapon, manhole) to keep his hands clean.
+ * - Normalized to natural human scale (~1.95m height).
+ * - Tracks right hand bone for authentic web attachment.
  */
 export function SpiderManModel({
   currentAction = "Idle",
+  timeScale = 1.0,
   modelRef,
   modelUrl = "/models/spiderman.glb",
   scale = 1,
   position = [0, 0, 0],
   rotation = [0, 0, 0],
+  onClick,
+  onHandBone,
 }: SpiderManModelProps) {
   const [modelState, setModelState] = useState<{
     scene: THREE.Group;
@@ -141,7 +180,7 @@ export function SpiderManModel({
 
         const cloneScene = gltf.scene;
 
-        // Traverse meshes to configure shadows, materials, and hide offscreen props
+        // Traverse meshes to configure shadows, materials, and hide weapon/floor props
         cloneScene.traverse((child) => {
           if ((child as THREE.Mesh).isMesh) {
             const mesh = child as THREE.Mesh;
@@ -149,10 +188,18 @@ export function SpiderManModel({
 
             // Calculate mesh bounding box
             mesh.geometry.computeBoundingBox();
-            const center = mesh.geometry.boundingBox?.getCenter(new THREE.Vector3()) || new THREE.Vector3();
+            const center =
+              mesh.geometry.boundingBox?.getCenter(new THREE.Vector3()) || new THREE.Vector3();
 
-            // Hide detached floor props like the manhole cover or anything subterranean below y = -5
-            if (name.includes("manhole") || name.includes("ground") || name.includes("floor") || center.y < -5) {
+            // Hide detached weapon props (wp, weapon) and subterranean geometry
+            if (
+              name.includes("wp") ||
+              name.includes("weapon") ||
+              name.includes("manhole") ||
+              name.includes("ground") ||
+              name.includes("floor") ||
+              center.y < -5
+            ) {
               mesh.visible = false;
               return;
             }
@@ -169,7 +216,6 @@ export function SpiderManModel({
           }
         });
 
-        // The model's natural character size is already exactly human scale (~1.96m tall)
         // Center the character vertically on waist/chest at y = 0 with feet resting at y = -0.98
         cloneScene.scale.set(1.0, 1.0, 1.0);
         cloneScene.position.set(0, -0.98, 0);
@@ -179,7 +225,7 @@ export function SpiderManModel({
       undefined,
       (err) => {
         console.warn("Could not load Spider-Man glb model:", err);
-      }
+      },
     );
 
     return () => {
@@ -188,12 +234,24 @@ export function SpiderManModel({
   }, [modelUrl]);
 
   return (
-    <group ref={modelRef} position={position} rotation={rotation} scale={scale} dispose={null}>
+    <group
+      {...(modelRef ? { ref: modelRef } : {})}
+      position={position}
+      rotation={rotation}
+      scale={scale}
+      dispose={null}
+      onClick={(e) => {
+        e.stopPropagation();
+        onClick?.();
+      }}
+    >
       {modelState ? (
-        <RealisticGltfSpiderMan
+        <DirectMixerSpiderMan
           scene={modelState.scene}
           animations={modelState.animations}
           currentAction={currentAction}
+          timeScale={timeScale}
+          onHandBone={onHandBone}
         />
       ) : null}
     </group>
