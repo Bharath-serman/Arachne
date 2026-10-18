@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import * as THREE from "three";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { PerspectiveCamera, ContactShadows } from "@react-three/drei";
@@ -106,6 +106,11 @@ function SceneHierarchy({ containerId, modelUrl }: SpiderManSceneProps) {
   );
 }
 
+/**
+ * SpiderManCanvas — Hero-only 3D Canvas.
+ * The canvas is always fixed but the model itself handles its own visibility
+ * via the useScrollRig hook (scales to 0 when leaving hero, scales back when returning).
+ */
 export function SpiderManCanvas({
   containerId = "spiderman-portfolio-container",
   modelUrl = "/models/spiderman.glb",
