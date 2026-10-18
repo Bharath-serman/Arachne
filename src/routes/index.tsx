@@ -182,6 +182,9 @@ function Index() {
               ● On air
             </span>
             <div className="flex items-center gap-5">
+              <a href="/spiderman" className="label-mono text-red-400 font-medium transition-colors duration-300 hover:text-white">
+                Spider-Man 3D
+              </a>
               <a href="#cases" className="label-mono text-foreground/70 transition-colors duration-300 hover:text-mint">
                 Index
               </a>
