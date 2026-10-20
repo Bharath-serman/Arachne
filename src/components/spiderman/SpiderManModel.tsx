@@ -61,17 +61,14 @@ function DirectMixerSpiderMan({
     animations.forEach((clip) => {
       // Exclude camera helper tracks
       if (!clip.name.includes("_cam")) {
-        let playableClip = clip;
-        if (clip.name.toLowerCase().includes("skill04")) {
-          // Keep the leap's full skeletal pose, but remove pelvis root travel.
-          // The broadcast camera rig controls actor movement; the original
-          // root translation can otherwise throw the character out of frame.
-          playableClip = clip.clone();
-          playableClip.tracks = playableClip.tracks.filter(
-            (track) =>
-              !(/pelvis/i.test(track.name) && /(\.position|\.translation)$/i.test(track.name)),
-          );
-        }
+        // Keep each clip's pose but remove pelvis root travel. The cinematic
+        // rig controls actor movement; skeletal root translation can otherwise
+        // make Spider-Man appear to drop or jump during an action transition.
+        const playableClip = clip.clone();
+        playableClip.tracks = playableClip.tracks.filter(
+          (track) =>
+            !(/pelvis/i.test(track.name) && /(\.position|\.translation)$/i.test(track.name)),
+        );
         const action = mixer.clipAction(playableClip, scene);
         map.set(clip.name, action);
       }
@@ -113,7 +110,12 @@ function DirectMixerSpiderMan({
     }
 
     if (!matchedAction) {
-      matchedAction = map.values().next().value || null;
+      console.warn(
+        `[SpiderMan] No animation clip found for "${currentAction}".`,
+        "Available clips:",
+        [...map.keys()],
+      );
+      return;
     }
 
     if (matchedAction && matchedAction !== activeActionRef.current) {

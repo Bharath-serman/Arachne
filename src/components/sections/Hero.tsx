@@ -1,3 +1,4 @@
+
 import { useEffect, useRef, useState } from "react";
 import { scrollState } from "@/lib/scroll-state";
 
@@ -13,63 +14,110 @@ export function Hero() {
   const line1 = useRef<HTMLSpanElement>(null);
   const line2 = useRef<HTMLSpanElement>(null);
   const meta = useRef<HTMLDivElement>(null);
-  const stage = useRef<HTMLDivElement>(null);
+  const stage = useRef<HTMLElement>(null);
+  const heroType = useRef<HTMLDivElement>(null);
 
   const [activeCodonIndex, setActiveCodonIndex] = useState(0);
   const [pulseCount, setPulseCount] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveCodonIndex((prev) => (prev + 1) % CODON_SEQUENCES.length);
+    const interval = window.setInterval(() => {
+      setActiveCodonIndex(
+        (prev) => (prev + 1) % CODON_SEQUENCES.length,
+      );
     }, 2800);
-    return () => clearInterval(interval);
+
+    return () => window.clearInterval(interval);
   }, []);
 
   const triggerResonance = () => {
-    setPulseCount((c) => c + 1);
-    window.dispatchEvent(new CustomEvent("dna-pulse", { detail: { count: pulseCount + 1 } }));
+    setPulseCount((count) => {
+      const nextCount = count + 1;
+
+      window.dispatchEvent(
+        new CustomEvent("dna-pulse", {
+          detail: { count: nextCount },
+        }),
+      );
+
+      return nextCount;
+    });
+
     scrollState.clickAt = performance.now();
   };
 
   useEffect(() => {
-    let ctx: { revert: () => void } | undefined;
-    let killed = false;
+    let context: { revert: () => void } | undefined;
+    let cancelled = false;
 
-    (async () => {
-      const { gsap } = await import("gsap");
+    async function initializeAnimations() {
+      const { default: gsap } = await import("gsap");
       const { ScrollTrigger } = await import("gsap/ScrollTrigger");
+
+      if (cancelled || !stage.current) return;
+
       gsap.registerPlugin(ScrollTrigger);
-      if (killed) return;
 
-      ctx = gsap.context(() => {
-        const words = gsap.utils.toArray<HTMLElement>(".hero-word");
-        const badges = gsap.utils.toArray<HTMLElement>(".hero-badge");
+      const stageElement = stage.current;
+      const typeElement = heroType.current;
+      const metaElement = meta.current;
 
-        gsap.set(words, {
-          filter: "blur(18px)",
-          opacity: 0,
-          yPercent: 25,
-          letterSpacing: "0.15em",
-          scale: 1.05,
-        });
+      if (!typeElement || !metaElement) {
+        console.warn("[Hero] Animation elements are not mounted.");
+        return;
+      }
 
-        gsap.set(badges, {
-          opacity: 0,
-          y: -10,
-          filter: "blur(6px)",
-        });
+      context = gsap.context(() => {
+        // Scope selectors to this Hero instance.
+        const words = [
+          line1.current,
+          line2.current,
+          ...Array.from(
+            stageElement.querySelectorAll<HTMLElement>(
+              ".hero-word:not([data-primary-line])",
+            ),
+          ),
+        ].filter(
+          (element): element is HTMLElement => element !== null,
+        );
 
-        const tl = gsap.timeline({ delay: 0.25 });
+        const badges =
+          stageElement.querySelectorAll<HTMLElement>(".hero-badge");
 
-        tl.to(badges, {
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          duration: 1.2,
-          stagger: 0.1,
-          ease: "power2.out",
-        })
-          .to(
+        // Animate only elements that actually exist.
+        if (words.length > 0) {
+          gsap.set(words, {
+            filter: "blur(18px)",
+            opacity: 0,
+            yPercent: 25,
+            letterSpacing: "0.15em",
+            scale: 1.05,
+          });
+        }
+
+        if (badges.length > 0) {
+          gsap.set(badges, {
+            opacity: 0,
+            y: -10,
+            filter: "blur(6px)",
+          });
+        }
+
+        const intro = gsap.timeline({ delay: 0.25 });
+
+        if (badges.length > 0) {
+          intro.to(badges, {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            duration: 1.2,
+            stagger: 0.1,
+            ease: "power2.out",
+          });
+        }
+
+        if (words.length > 0) {
+          intro.to(
             words,
             {
               filter: "blur(0px)",
@@ -81,55 +129,87 @@ export function Hero() {
               ease: "expo.out",
               stagger: 0.09,
             },
-            "-=0.8",
-          )
-          .fromTo(
-            meta.current,
-            { opacity: 0, y: 18, filter: "blur(10px)" },
-            { opacity: 1, y: 0, filter: "blur(0px)", duration: 1.3, ease: "power3.out" },
-            "-=1.0",
+            badges.length > 0 ? "-=0.8" : 0,
           );
+        }
 
-        // scroll-linked: type and hud recede gracefully into the 3D corridor
-        gsap.to(".hero-type", {
+        intro.fromTo(
+          metaElement,
+          {
+            opacity: 0,
+            y: 18,
+            filter: "blur(10px)",
+          },
+          {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            duration: 1.3,
+            ease: "power3.out",
+          },
+          "-=1.0",
+        );
+
+        // Hero typography recedes as the user scrolls.
+        gsap.to(typeElement, {
           scale: 1.18,
           yPercent: -15,
           opacity: 0,
           filter: "blur(16px)",
           ease: "power2.inOut",
           scrollTrigger: {
-            trigger: stage.current,
+            trigger: stageElement,
             start: "top top",
             end: "bottom top",
             scrub: 1.1,
+            invalidateOnRefresh: true,
           },
         });
-      }, stage);
-    })();
+      }, stageElement);
+
+      ScrollTrigger.refresh();
+    }
+
+    void initializeAnimations();
 
     return () => {
-      killed = true;
-      ctx?.revert();
+      cancelled = true;
+      context?.revert();
     };
   }, []);
 
   return (
-    <section ref={stage} className="relative h-[220vh]" aria-label="Arachné Hero Experience">
+    <section
+      ref={stage}
+      id="spiderman-hero"
+      className="relative h-[220vh]"
+      aria-label="Arachné Hero Experience"
+    >
       <div className="sticky top-0 flex h-screen flex-col justify-center px-6 md:px-12 pointer-events-none">
-        <div className="hero-type relative mx-auto w-full max-w-[96rem] will-change-transform pointer-events-auto">
-
-          {/* Main Title Heading */}
+        <div
+          ref={heroType}
+          className="hero-type relative mx-auto w-full max-w-[96rem] will-change-transform pointer-events-auto"
+        >
           <h1 className="font-display text-[clamp(2.4rem,7vw,7.8rem)] font-light leading-[0.9] tracking-[-0.04em] text-foreground/95">
             <span className="block overflow-visible">
-              <span ref={line1} className="hero-word inline-block">
+              <span
+                ref={line1}
+                data-primary-line
+                className="hero-word inline-block"
+              >
                 BRIDGING REALITY
               </span>{" "}
               <span className="hero-word inline-block bg-gradient-to-r from-mint via-teal-300 to-cyan-400 bg-clip-text text-transparent font-normal">
                 &amp; CODE
               </span>
             </span>
+
             <span className="mt-1 block md:pl-[6vw]">
-              <span ref={line2} className="hero-word inline-block font-extralight text-foreground/80">
+              <span
+                ref={line2}
+                data-primary-line
+                className="hero-word inline-block font-extralight text-foreground/80"
+              >
                 THROUGH
               </span>{" "}
               <span className="hero-word inline-block font-serif italic text-ember">
@@ -138,7 +218,6 @@ export function Hero() {
             </span>
           </h1>
 
-          {/* Subtitle & Interactive DNA HUD Bar */}
           <div
             ref={meta}
             className="mt-10 flex flex-col gap-6 border-t border-white/10 pt-6 md:flex-row md:items-end md:justify-between"
@@ -148,10 +227,26 @@ export function Hero() {
                 <span className="inline-block h-1.5 w-1.5 rounded-full bg-ember animate-pulse" />
                 Transmission 01 — Biomimetic Studio
               </p>
+
               <p className="text-sm sm:text-base leading-relaxed text-foreground/70">
-                Interactive drag &amp; scroll responsive
-                genetic strands that weave into the web matrix.
+                Interactive drag &amp; scroll responsive genetic strands
+                that weave into the web matrix.
               </p>
+
+              <p
+                className="pt-3 font-mono text-xs tracking-wider text-mint/70"
+                aria-live="polite"
+              >
+                {CODON_SEQUENCES[activeCodonIndex]}
+              </p>
+
+              <button
+                type="button"
+                onClick={triggerResonance}
+                className="pointer-events-auto mt-3 border border-mint/30 px-4 py-2 text-xs uppercase tracking-widest text-mint transition-colors hover:bg-mint/10"
+              >
+                Activate resonance · {pulseCount}
+              </button>
             </div>
           </div>
         </div>
