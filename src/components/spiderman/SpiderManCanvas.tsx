@@ -13,6 +13,7 @@ interface SpiderManSceneProps {
 function SceneHierarchy({ containerId, modelUrl }: SpiderManSceneProps) {
   const modelRef = useRef<THREE.Group | null>(null);
   const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
+  const cameraPositionTarget = useRef(new THREE.Vector3(0, 1.6, 5.2));
 
   const { activeAction, lookAtTarget } = useScrollRig({
     modelRef,
@@ -25,13 +26,17 @@ function SceneHierarchy({ containerId, modelUrl }: SpiderManSceneProps) {
     if (!cameraRef.current || !modelRef.current) return;
     const modelPos = modelRef.current.position;
 
+    // Ease the camera into a subtle tracking angle as Spider-Man moves away.
+    cameraPositionTarget.current.set(
+      modelPos.x * 0.28,
+      1.6 + (modelPos.y + 0.2) * 0.28,
+      5.2 + Math.min(Math.abs(modelPos.x) * 0.08, 0.35),
+    );
+    cameraRef.current.position.lerp(cameraPositionTarget.current, 0.045);
+
     lookAtTarget.current.lerp(
-      new THREE.Vector3(
-        modelPos.x * 0.45,
-        modelPos.y + 1.25,
-        modelPos.z * 0.45
-      ),
-      0.08
+      new THREE.Vector3(modelPos.x * 0.45, modelPos.y + 1.25, modelPos.z * 0.45),
+      0.08,
     );
 
     cameraRef.current.lookAt(lookAtTarget.current);
@@ -70,28 +75,16 @@ function SceneHierarchy({ containerId, modelUrl }: SpiderManSceneProps) {
       />
 
       {/* 3. Spider-Man Rim Light (Deep Crimson backlight creating razor silhouette edges) */}
-      <directionalLight
-        position={[-7, 5, -4]}
-        intensity={4.2}
-        color="#ff2a3a"
-      />
+      <directionalLight position={[-7, 5, -4]} intensity={4.2} color="#ff2a3a" />
 
       {/* 4. Secondary Backlight Rim (Electric Cyan/Blue glow for dimensional depth) */}
-      <directionalLight
-        position={[5, -2, -5]}
-        intensity={2.8}
-        color="#0084ff"
-      />
+      <directionalLight position={[5, -2, -5]} intensity={2.8} color="#0084ff" />
 
       {/* 5. Chest & Mask Fill Light */}
       <pointLight position={[0, 1.4, 3.2]} intensity={0.9} color="#e2e8f0" distance={8} />
 
       {/* The Rigged Spider-Man Model */}
-      <SpiderManModel
-        currentAction={activeAction}
-        modelRef={modelRef}
-        modelUrl={modelUrl}
-      />
+      <SpiderManModel currentAction={activeAction} modelRef={modelRef} modelUrl={modelUrl} />
 
       {/* Ground Contact Shadow */}
       <ContactShadows
