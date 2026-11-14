@@ -18,7 +18,7 @@ function SceneHierarchy({ containerId, modelUrl }: SpiderManSceneProps) {
   const { activeAction, lookAtTarget } = useScrollRig({
     modelRef,
     cameraRef,
-    containerId,
+    ...(containerId ? { containerId } : {}),
   });
 
   // Dynamically lerp camera lookAt toward the hero's chest/head

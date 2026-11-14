@@ -30,9 +30,9 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "A creative studio discovered inside an old television broadcast. Film, interface, sound and light — one continuous cinematic shot.",
+          "A Spider themed Portfolio website with 3D Spiderman Animations.",
       },
-      { property: "og:title", content: "ARACHNÉ — Cinematic Studio" },
+      { property: "og:title", content: "ARACHNÉ" },
       {
         property: "og:description",
         content:
@@ -178,13 +178,7 @@ function Index() {
             <span className="font-display text-lg font-light tracking-[0.3em] text-foreground/85">
               ARACHNÉ
             </span>
-            <span className="label-mono hidden md:block" style={{ animation: "signal-flicker 5s infinite" }}>
-              ● On air
-            </span>
             <div className="flex items-center gap-5">
-              <a href="/spiderman" className="label-mono text-red-400 font-medium transition-colors duration-300 hover:text-white">
-                Spider-Man 3D
-              </a>
               <a href="#cases" className="label-mono text-foreground/70 transition-colors duration-300 hover:text-mint">
                 Index
               </a>
