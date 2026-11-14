@@ -3,18 +3,19 @@ import { ContactFormModal } from "./ContactFormModal";
 
 const STAGES = [
   { letter: "S", code: "01", label: "SIGNAL", title: "Open a new signal.", detail: "Reach the studio directly through our interactive spiderweb transmitter." },
-  { letter: "P", code: "02", label: "PHONE", title: "+91 98765 43210", detail: "Call when the idea needs to move faster than an inbox.", href: "tel:+919876543210" },
+  { letter: "P", code: "02", label: "PHONE", title: "+91 72000 30913", detail: "Call when the idea needs to move faster than an inbox.", href: "tel:+919876543210" },
   { letter: "I", code: "03", label: "INTERNET", title: "Public channels", detail: "Follow the threads across the studio’s active platforms." },
-  { letter: "D", code: "04", label: "DESK", title: "Signal House / Bengaluru", detail: "A physical desk for moving image, interface, and atmosphere." },
-  { letter: "E", code: "05", label: "EMAIL", title: "signal@studio.tv", detail: "Send the brief, the rough sketch, or the strange idea that will not leave you alone.", isFormTrigger: true },
+  { letter: "D", code: "04", label: "LOCATION", title: "Chennai, Tamil Nadu", detail: "" },
+  { letter: "E", code: "05", label: "EMAIL", title: "bharathserman@gmail.com", detail: "Send the brief, the rough sketch, or the strange idea that will not leave you alone.", isFormTrigger: true },
   { letter: "Y", code: "06", label: "AVAILABILITY", title: "Mon–Fri / 10:00–19:00 IST", detail: "The receiver is active. Let’s build the next chapter." },
 ];
 
 const SOCIALS = [
-  { label: "Instagram", href: "https://instagram.com" },
-  { label: "Vimeo", href: "https://vimeo.com" },
-  { label: "GitHub", href: "https://github.com" },
-  { label: "LinkedIn", href: "https://linkedin.com" },
+  { label: "GitHub", href: "https://github.com/Bharath-serman" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/bharath-serman-r-7999b8262/" },
+  { label: "Itch IO", href: "https://bharath-serman.itch.io/" },
+  { label: "Email", href: "bharathserman@gmail.com" },
+
 ];
 
 function SilkWatermark() {
@@ -137,7 +138,7 @@ export function Contact() {
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(238,246,247,.018)_1px,transparent_1px),linear-gradient(90deg,rgba(238,246,247,.012)_1px,transparent_1px)] bg-[size:5rem_5rem] [mask-image:linear-gradient(180deg,transparent,black_18%,black_80%,transparent)]" />
 
         <div className="pointer-events-none absolute inset-x-0 top-[12%] z-10 text-center">
-          <p className="atelier-heading label-mono text-foreground/60">Correspondence / build the word one scroll at a time</p>
+          <p className="atelier-heading label-mono text-foreground/60">Contact Me to connect</p>
         </div>
         
         <div className="spidey-word pointer-events-none absolute inset-x-0 top-[18%] z-30 flex justify-center gap-[.02em] [transform-style:preserve-3d]">
@@ -183,7 +184,6 @@ export function Contact() {
                       className="group mt-4 inline-flex items-center gap-3 border-b border-ember/75 pb-1 label-mono text-ember transition-colors hover:text-foreground cursor-pointer"
                     >
                       <span>Start transmission</span>
-                      <span className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
                     </button>
                   )}
                 </article>
@@ -192,13 +192,13 @@ export function Contact() {
           </div>
 
           <footer className="atelier-footer relative z-30 flex flex-col gap-3 text-[11px] font-medium uppercase tracking-[0.18em] text-foreground opacity-100 md:flex-row md:items-end md:justify-between pt-4 border-t border-white/20">
-            <span>Anemoia — studio notes / 2026</span>
+            <span>Arachne / 2026</span>
             <div className="flex items-center gap-6">
               <a
                 href="/privacy"
                 className="rounded-full border border-mint/80 bg-mint/15 px-4 py-1.5 label-mono text-xs font-bold text-mint transition-all duration-300 hover:bg-mint hover:text-black shadow-[0_0_16px_rgba(0,245,212,0.6)] cursor-pointer"
               >
-                PRIVACY POLICY ↗
+                PRIVACY POLICY
               </a>
               <span className="text-mint/90 font-medium">● Full word received / SPIDEY</span>
             </div>

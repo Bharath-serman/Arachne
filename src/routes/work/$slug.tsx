@@ -41,7 +41,7 @@ function ProjectDetail() {
       <header className="relative z-20 mx-auto flex max-w-[108rem] items-center justify-between px-6 py-7 md:px-10 md:py-9">
         <a href="/" className="font-display text-lg font-light tracking-[.28em] text-foreground/90">ARACHNÉ</a>
         <a href="/#cases" className="label-mono text-foreground/65 transition-colors hover:text-mint">
-            ← Return to archive
+            Return to archive
         </a>
       </header>
 

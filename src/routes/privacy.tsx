@@ -254,7 +254,7 @@ function HangingHeroKicker() {
         <path
           d="M 0 4 Q 110 10 220 5"
           fill="none"
-          stroke="#a7f3d0"
+          stroke="#f3a7a7"
           strokeWidth="0.75"
           strokeOpacity="0.32"
         />
@@ -263,9 +263,8 @@ function HangingHeroKicker() {
         <path d="M 120 7 L 122 20" stroke="#a7f3d0" strokeWidth="0.65" strokeOpacity="0.38" />
         <circle cx="122" cy="20" r="1.1" fill="#a7f3d0" opacity="0.7" />
       </svg>
-      <span className="h-2.5 w-2.5 rounded-full bg-mint animate-pulse" />
       <span className="label-mono text-xs font-semibold tracking-[0.2em] text-mint">
-        TRANSPARENCY & DATA GOVERNANCE
+        INTO THE POLICY SECTION
       </span>
     </div>
   );
@@ -509,40 +508,6 @@ function HeroGovernanceWidget() {
         <circle cx="220" cy="70" r="1.4" fill="#a7f3d0" opacity="0.75" />
       </svg>
 
-      {/* Hanging micro-spider suspended on a vertical thread on the card's right side */}
-      <div
-        className="pointer-events-none absolute -right-2 -top-14 z-20 flex flex-col items-center animate-web-hang-sway"
-        style={{ transformOrigin: "top center" }}
-      >
-        <div className="w-[1px] h-14 bg-gradient-to-b from-white/10 via-white/50 to-white/90" />
-        <div className="relative -mt-0.5">
-          <span className="relative flex h-2.5 w-2.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-ember opacity-75" />
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-ember" />
-          </span>
-        </div>
-        {/* Stylized mechanical micro-spider silhouette */}
-        <svg
-          width="22"
-          height="22"
-          viewBox="0 0 24 24"
-          className="text-foreground/90 drop-shadow-[0_0_10px_rgba(255,80,40,0.7)]"
-        >
-          <ellipse cx="12" cy="13" rx="3.5" ry="4.5" fill="currentColor" />
-          <circle cx="12" cy="7" r="2.5" fill="currentColor" />
-          <circle cx="11.2" cy="6.6" r="0.6" fill="#ff4422" />
-          <circle cx="12.8" cy="6.6" r="0.6" fill="#ff4422" />
-          <path d="M 9 9 Q 4 6 2 9" fill="none" stroke="currentColor" strokeWidth="1" />
-          <path d="M 9 11 Q 3 11 1 14" fill="none" stroke="currentColor" strokeWidth="1" />
-          <path d="M 9 13 Q 3 15 2 19" fill="none" stroke="currentColor" strokeWidth="1" />
-          <path d="M 10 15 Q 5 20 4 23" fill="none" stroke="currentColor" strokeWidth="1" />
-          <path d="M 15 9 Q 20 6 22 9" fill="none" stroke="currentColor" strokeWidth="1" />
-          <path d="M 15 11 Q 21 11 23 14" fill="none" stroke="currentColor" strokeWidth="1" />
-          <path d="M 15 13 Q 21 15 22 19" fill="none" stroke="currentColor" strokeWidth="1" />
-          <path d="M 14 15 Q 19 20 20 23" fill="none" stroke="currentColor" strokeWidth="1" />
-        </svg>
-      </div>
-
       {/* Main Telemetry Box */}
       <div className="relative rounded-lg border border-white/20 bg-black/65 p-6 backdrop-blur-md shadow-2xl overflow-hidden transition-all duration-500 group-hover:border-white/35 group-hover:shadow-[0_0_35px_rgba(255,70,40,0.18)]">
         {/* Corner spiderwebs inside the card */}
@@ -561,10 +526,9 @@ function HeroGovernanceWidget() {
               <span className="relative inline-flex rounded-full h-2 w-2 bg-mint" />
             </span>
             <span className="label-mono text-xs font-semibold text-mint tracking-[0.2em]">
-              LIVE DATA GOVERNANCE
+              Datas Used in this site
             </span>
-          </div>
-          <span className="label-mono text-[10px] text-foreground/50">NODE 01 // SECURE</span>
+          </div> 
         </div>
 
         {/* Telemetry Metrics Grid */}
@@ -921,7 +885,7 @@ function PrivacyPolicy() {
             type="button"
             className="label-mono text-xs text-foreground/70 transition-colors hover:text-mint cursor-pointer"
           >
-            Return to Studio
+            Return to Home
           </button>
         </header>
 
@@ -1141,7 +1105,7 @@ function PrivacyPolicy() {
             type="button"
             className="text-mint font-semibold transition-colors hover:text-white cursor-pointer"
           >
-            Return to Studio
+            Return to Home
           </button>
         </footer>
       </div>

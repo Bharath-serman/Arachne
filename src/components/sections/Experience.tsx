@@ -11,31 +11,17 @@ type Entry = {
 const ENTRIES: Entry[] = [
   {
     year: "2026",
-    role: "Independent studio practice",
-    place: "Anemoia — Bengaluru",
-    detail: "Directing and building scroll-driven film experiences end to end: art direction, WebGL, sound and edit.",
-    tags: ["Direction", "WebGL", "Edit"],
+    role: "XR Game Tester",
+    place: "VRARRI",
+    detail: "Tested and provided feedback on various XR games, ensuring optimal performance and user experience.",
+    tags: ["XR", "Game Testing", "Quality Assu"],
   },
   {
-    year: "2023",
-    role: "Lead motion designer",
-    place: "Kino Collective",
-    detail: "Title sequences and broadcast identities for streaming and festival clients, from boards to final grade.",
-    tags: ["Titles", "Identity", "Grade"],
-  },
-  {
-    year: "2020",
-    role: "Interactive developer",
-    place: "Field & Co",
-    detail: "Shipped realtime installations and award-listed sites using Three.js, GLSL and GSAP choreography.",
-    tags: ["Three.js", "GLSL", "GSAP"],
-  },
-  {
-    year: "2018",
-    role: "Design engineer",
-    place: "Signal House",
-    detail: "Built the design system and motion language behind a broadcast toolkit used across four studios.",
-    tags: ["Systems", "Motion", "Tooling"],
+    year: "2024",
+    role: "Software engineer Intern",
+    place: "Chennai Metro Rail Limited — Chennai",
+    detail: "Worked on the development of a web-based Travel Planner application for that shows the Fare and other details of the Chennai Metro Rail System.",
+    tags: ["Travel Planner", "CMRL", "Website Features"],
   },
 ];
 
@@ -100,7 +86,7 @@ function FacadeWeb({ progress, active }: { progress: number; active: number }) {
 
 /** A scroll-steered city facade where career chapters glow behind four webbed windows. */
 export function Experience() {
-  const [active, setActive] = useState(3);
+  const [active, setActive] = useState(1);
   const entry = ENTRIES[active]!;
 
   return (

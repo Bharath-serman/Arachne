@@ -1,4 +1,18 @@
-import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
+import {
+  Suspense,
+  lazy,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react";
+
+const LandingSpiderManCanvas = lazy(() =>
+  import("@/components/spiderman/LandingSpiderManCanvas").then((module) => ({
+    default: module.LandingSpiderManCanvas,
+  })),
+);
 
 const NAME = "Bharath serman R";  //The Name the web pulls in the landing page.
 const CHARACTERS = Array.from(NAME);
@@ -251,6 +265,9 @@ export function Landing({ onEnter, onPrepare }: LandingProps) {
  aria-label="ARACHNÉ landing page">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_48%,rgba(176,33,21,.2),transparent_28%),radial-gradient(ellipse_at_50%_50%,rgba(235,244,246,.045),transparent_58%),linear-gradient(150deg,#030405,#080708_56%,#020304)]" />
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(238,246,247,.018)_1px,transparent_1px),linear-gradient(90deg,rgba(238,246,247,.012)_1px,transparent_1px)] bg-[size:5rem_5rem] [mask-image:radial-gradient(ellipse_at_center,black,transparent_76%)]" />
+      <Suspense fallback={null}>
+        <LandingSpiderManCanvas leaving={leaving} />
+      </Suspense>
       <svg className="pointer-events-none absolute inset-0 h-full w-full opacity-45" viewBox="0 0 1200 720" preserveAspectRatio="none" aria-hidden="true">
         <g fill="none" stroke="#e8eff1" strokeLinecap="round">
           <path d="M -44 154 C 146 80, 238 282, 404 210 S 654 104, 784 272 S 1018 522, 1254 406" strokeWidth="1.1" opacity=".42" />

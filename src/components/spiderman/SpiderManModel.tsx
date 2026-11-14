@@ -16,6 +16,7 @@ export interface SpiderManModelProps {
   rotation?: [number, number, number];
   onClick?: () => void;
   onHandBone?: ((bone: THREE.Object3D) => void) | undefined;
+  onLoaded?: () => void;
 }
 
 /**
@@ -165,6 +166,7 @@ export function SpiderManModel({
   rotation = [0, 0, 0],
   onClick,
   onHandBone,
+  onLoaded,
 }: SpiderManModelProps) {
   const [modelState, setModelState] = useState<{
     scene: THREE.Group;
@@ -223,6 +225,7 @@ export function SpiderManModel({
         cloneScene.position.set(0, -0.98, 0);
 
         setModelState({ scene: cloneScene, animations: gltf.animations });
+        onLoaded?.();
       },
       undefined,
       (err) => {
@@ -233,7 +236,7 @@ export function SpiderManModel({
     return () => {
       canceled = true;
     };
-  }, [modelUrl]);
+  }, [modelUrl, onLoaded]);
 
   return (
     <group

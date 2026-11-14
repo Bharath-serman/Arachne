@@ -6,7 +6,6 @@ import { screenVertex, glowFragment } from "./crt-shaders";
 import { makeWebTexture, makeWebCardTexture, makeStrandVeilTexture } from "./web-texture";
 import { PROFILE_CARDS } from "./profile-cards";
 import { Spider } from "./Spider";
-import { SpiderManInBroadcast } from "./SpiderManInBroadcast";
 //import { SpiderDnaMatrix } from "./SpiderDnaMatrix";
 
 type WebConfig = {
@@ -638,7 +637,6 @@ function Environment({ mobile }: { mobile: boolean }) {
       <pointLight position={[-6, 4, 4]} intensity={22} color="#ff442a" distance={45} decay={2} />
       <pointLight position={[7, -3, -12]} intensity={14} color="#6f9dff" distance={40} decay={2} />
       <EmberLight />
-      <SpiderManInBroadcast />
       {/* <SpiderDnaMatrix /> */}
       {strands.map((s, i) => (
         <Strand key={i} from={s.from} to={s.to} seed={s.seed} />

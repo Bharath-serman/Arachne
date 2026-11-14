@@ -2,14 +2,6 @@
 import { useEffect, useRef, useState } from "react";
 import { scrollState } from "@/lib/scroll-state";
 
-const CODON_SEQUENCES = [
-  "5'-GGC-CAA-GGC-CCG-TAT-GGT-3'",
-  "SPIDROIN-1 [MaSp1] // ENCODED",
-  "TENSILE STRENGTH: 1.45 GPa",
-  "ELASTIC EXTENSION: 38.2%",
-  "BETA-SHEET NANOCRYSTALS: 42%",
-];
-
 export function Hero() {
   const line1 = useRef<HTMLSpanElement>(null);
   const line2 = useRef<HTMLSpanElement>(null);
@@ -19,17 +11,6 @@ export function Hero() {
 
   const [activeCodonIndex, setActiveCodonIndex] = useState(0);
   const [pulseCount, setPulseCount] = useState(0);
-
-  useEffect(() => {
-    const interval = window.setInterval(() => {
-      setActiveCodonIndex(
-        (prev) => (prev + 1) % CODON_SEQUENCES.length,
-      );
-    }, 2800);
-
-    return () => window.clearInterval(interval);
-  }, []);
-
   const triggerResonance = () => {
     setPulseCount((count) => {
       const nextCount = count + 1;
@@ -222,32 +203,6 @@ export function Hero() {
             ref={meta}
             className="mt-10 flex flex-col gap-6 border-t border-white/10 pt-6 md:flex-row md:items-end md:justify-between"
           >
-            <div className="space-y-1.5 max-w-md">
-              <p className="label-mono text-mint/90 flex items-center gap-2">
-                <span className="inline-block h-1.5 w-1.5 rounded-full bg-ember animate-pulse" />
-                Transmission 01 — Biomimetic Studio
-              </p>
-
-              <p className="text-sm sm:text-base leading-relaxed text-foreground/70">
-                Interactive drag &amp; scroll responsive genetic strands
-                that weave into the web matrix.
-              </p>
-
-              <p
-                className="pt-3 font-mono text-xs tracking-wider text-mint/70"
-                aria-live="polite"
-              >
-                {CODON_SEQUENCES[activeCodonIndex]}
-              </p>
-
-              <button
-                type="button"
-                onClick={triggerResonance}
-                className="pointer-events-auto mt-3 border border-mint/30 px-4 py-2 text-xs uppercase tracking-widest text-mint transition-colors hover:bg-mint/10"
-              >
-                Activate resonance · {pulseCount}
-              </button>
-            </div>
           </div>
         </div>
       </div>

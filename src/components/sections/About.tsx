@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-const MESSAGE = "We are a bunch of people who make ideas feel alive.";
+const MESSAGE = "With Great Practice Comes Great Results.";
 const WORDS = MESSAGE.split(" ");
 let tetherIndex = 0;
 const WORDS_WITH_LETTERS = WORDS.map((word) =>
