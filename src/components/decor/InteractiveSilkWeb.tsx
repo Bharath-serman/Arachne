@@ -4,6 +4,7 @@ interface InteractiveSilkWebProps {
   activeField?: "name" | "email" | "subject" | "message" | null;
   density?: number; // 0..100
   className?: string;
+  composition?: "card" | "backdrop";
 }
 
 interface WebNode {
@@ -30,6 +31,7 @@ export function InteractiveSilkWeb({
   activeField,
   density = 0,
   className = "",
+  composition = "card",
 }: InteractiveSilkWebProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const stateRef = useRef<{
@@ -61,21 +63,22 @@ export function InteractiveSilkWeb({
     let animId: number;
     const STRANDS = 16;
     const RINGS = 8;
+    const isBackdrop = composition === "backdrop";
 
     const buildWeb = (w: number, h: number) => {
       const state = stateRef.current;
       state.width = w;
       state.height = h;
 
-      const cx = w * 0.5;
-      const cy = h * 0.44;
+      const cx = w * (isBackdrop ? 0.92 : 0.5);
+      const cy = h * (isBackdrop ? 0.52 : 0.44);
       state.hub = { x: cx, y: cy, baseX: cx, baseY: cy, vx: 0, vy: 0 };
       state.microSpider.x = cx;
       state.microSpider.y = cy;
       state.microSpider.tx = cx;
       state.microSpider.ty = cy;
 
-      const maxR = Math.min(w, h) * 0.58;
+      const maxR = Math.min(w, h) * (isBackdrop ? 0.72 : 0.58);
 
       const spokes: { angle: number; len: number }[] = [];
       for (let i = 0; i < STRANDS; i++) {
@@ -315,9 +318,10 @@ export function InteractiveSilkWeb({
           ctx.shadowColor = "rgba(255, 255, 255, 0.8)";
           ctx.shadowBlur = 8;
         } else {
-          ctx.strokeStyle = `rgba(215, 225, 235, ${0.25 + (density / 100) * 0.2})`;
-          ctx.lineWidth = 1.0;
-          ctx.shadowBlur = 0;
+          const spokeAlpha = (isBackdrop ? 0.4 : 0.25) + (density / 100) * 0.2;
+          ctx.strokeStyle = `rgba(215, 225, 235, ${spokeAlpha})`;
+          ctx.lineWidth = isBackdrop ? 1.2 : 1.0;
+          ctx.shadowBlur = isBackdrop ? 2 : 0;
         }
         ctx.stroke();
         ctx.shadowBlur = 0;
@@ -355,10 +359,12 @@ export function InteractiveSilkWeb({
             ctx.shadowColor = "rgba(240, 248, 255, 0.75)";
             ctx.shadowBlur = 6;
           } else {
-            const baseAlpha = (0.28 - ringRatio * 0.12) * (1 + (density / 100) * 0.4);
+            const baseAlpha =
+              ((isBackdrop ? 0.38 : 0.28) - ringRatio * (isBackdrop ? 0.14 : 0.12)) *
+              (1 + (density / 100) * 0.4);
             ctx.strokeStyle = `rgba(195, 210, 225, ${Math.max(0.1, baseAlpha)})`;
-            ctx.lineWidth = 0.85;
-            ctx.shadowBlur = 0;
+            ctx.lineWidth = isBackdrop ? 1.05 : 0.85;
+            ctx.shadowBlur = isBackdrop ? 1.5 : 0;
           }
           ctx.stroke();
           ctx.shadowBlur = 0;
@@ -502,12 +508,12 @@ export function InteractiveSilkWeb({
         container.removeEventListener("click", onClick);
       }
     };
-  }, [activeField, density]);
+  }, [activeField, composition, density]);
 
   return (
     <canvas
       ref={canvasRef}
-      className={`pointer-events-auto absolute inset-0 h-full w-full ${className}`}
+      className={`pointer-events-none absolute inset-0 h-full w-full ${className}`}
       style={{ touchAction: "none" }}
       aria-hidden="true"
     />

@@ -83,8 +83,8 @@ function SentAnimation({ onDone }: { onDone: () => void }) {
   }, [onDone]);
 
   // White and grey silk strands radiating toward center "SENT"
-  const cx = 500;
-  const cy = 400;
+  const cx = 100;
+  const cy = 100;
   const strandDefs = [
     { d: `M -60,0 Q ${cx * 0.3},${cy * 0.2} ${cx},${cy}`, color: "rgba(255,255,255,0.9)" },
     { d: `M 1060,0 Q ${cx + cx * 0.4},${cy * 0.15} ${cx},${cy}`, color: "rgba(220,230,240,0.8)" },
@@ -172,7 +172,7 @@ function SentAnimation({ onDone }: { onDone: () => void }) {
           className="sent-letter label-mono text-xs tracking-[0.35em] text-neutral-300"
           style={{ transformOrigin: "center", transition: "opacity 0.1s, transform 0.1s" }}
         >
-          SIGNAL DELIVERED TO STUDIO RECEIVER
+          MESSAGE SENT SUCCESSFULLY
         </p>
       </div>
     </div>,
@@ -204,17 +204,10 @@ export function ContactFormModal({ isOpen, onClose }: ContactFormModalProps) {
 
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
     return () => {
       document.body.style.overflow = originalOverflow;
-      window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
   if (!mounted || !isOpen) return null;
 
@@ -260,8 +253,7 @@ export function ContactFormModal({ isOpen, onClose }: ContactFormModalProps) {
 
   const handleSentDone = () => {
     setShowSentAnim(false);
-    setStatus("idle");
-    onClose();
+    setStatus("success");
   };
 
   return (
@@ -274,8 +266,14 @@ export function ContactFormModal({ isOpen, onClose }: ContactFormModalProps) {
           {/* Darkened Silk Backdrop */}
           <div
             className="fixed inset-0 bg-black/85 backdrop-blur-xl transition-opacity duration-300 animate-in fade-in"
-            onClick={onClose}
             aria-hidden="true"
+          />
+
+          <InteractiveSilkWeb
+            activeField={activeField}
+            density={signalPercent}
+            composition="backdrop"
+            className="z-[1] opacity-90"
           />
 
           {/* Main Form Card with White & Grey Theme */}
@@ -283,9 +281,6 @@ export function ContactFormModal({ isOpen, onClose }: ContactFormModalProps) {
             ref={modalRef}
             className="relative z-10 w-full max-w-2xl overflow-hidden rounded-2xl border border-white/25 bg-[#080a0f]/90 p-6 sm:p-8 md:p-10 shadow-[0_0_90px_rgba(255,255,255,0.12),0_20px_50px_rgba(0,0,0,0.85)] backdrop-blur-2xl transition-all animate-in zoom-in-95 duration-300"
           >
-            {/* Interactive White & Grey Silk Spider Web Canvas */}
-            <InteractiveSilkWeb activeField={activeField} density={signalPercent} />
-
             {/* Silver & White Corner Tension Anchors */}
             <span className="pointer-events-none absolute left-4 top-4 h-6 w-6 border-l-2 border-t-2 border-white/80 shadow-[0_0_10px_rgba(255,255,255,0.4)]" />
             <span className="pointer-events-none absolute right-4 top-4 h-6 w-6 border-r-2 border-t-2 border-white/80 shadow-[0_0_10px_rgba(255,255,255,0.4)]" />
@@ -299,7 +294,7 @@ export function ContactFormModal({ isOpen, onClose }: ContactFormModalProps) {
                   <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse" />
                 </span>
                 <span className="label-mono text-xs font-medium tracking-[0.25em] text-neutral-300">
-                  ARACHNÉ // STUDIO RELAY TRANSMITTER
+                  ARACHNÉ // Contact Form
                 </span>
               </div>
 
@@ -318,14 +313,14 @@ export function ContactFormModal({ isOpen, onClose }: ContactFormModalProps) {
               <div className="flex flex-wrap items-end justify-between gap-2">
                 <div>
                   <h2 className="font-display text-3xl sm:text-4xl font-extralight tracking-tight text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
-                    Spin a New Signal.
+                    Create a New Message.
                   </h2>
                   <p className="mt-1 text-xs text-neutral-400 font-medium">
-                    Direct transmission to <code className="text-neutral-200 font-semibold">studio@arachne.tv</code>
+                    Direct message to <code className="text-neutral-200 font-semibold">bharathserman@gmail.com</code>
                   </p>
                 </div>
                 <div className="rounded-full border border-white/30 bg-white/5 px-3 py-1 label-mono text-[10px] text-neutral-200 backdrop-blur-sm shadow-[0_0_12px_rgba(255,255,255,0.12)]">
-                  FREQUENCY: 104.8 MHz ● ACTIVE
+                  SPIDEY BHARATH
                 </div>
               </div>
             </div>
@@ -347,8 +342,8 @@ export function ContactFormModal({ isOpen, onClose }: ContactFormModalProps) {
                     onFocus={() => setActiveField("name")}
                     onBlur={() => setActiveField(null)}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="Miles Morales / Creative Director"
-                    className="w-full rounded-lg border border-white/20 bg-black/50 px-4 py-3 text-sm text-white placeholder:text-neutral-500 transition-all duration-300 focus:border-white focus:bg-black/80 focus:outline-none focus:ring-2 focus:ring-white/25 backdrop-blur-sm"
+                    placeholder="eg. Peter Parker"
+                    className="w-full rounded-lg border border-white/45 bg-[#030407] px-4 py-3 text-sm font-medium text-white placeholder:text-neutral-400 caret-ember shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition-all duration-300 focus:border-ember focus:bg-[#030407] focus:outline-none focus:ring-2 focus:ring-ember/50 backdrop-blur-sm"
                   />
                 </div>
 
@@ -366,42 +361,11 @@ export function ContactFormModal({ isOpen, onClose }: ContactFormModalProps) {
                     onFocus={() => setActiveField("email")}
                     onBlur={() => setActiveField(null)}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    placeholder="miles@brooklyn-studio.com"
-                    className="w-full rounded-lg border border-white/20 bg-black/50 px-4 py-3 text-sm text-white placeholder:text-neutral-500 transition-all duration-300 focus:border-white focus:bg-black/80 focus:outline-none focus:ring-2 focus:ring-white/25 backdrop-blur-sm"
+                    placeholder="eg. xxx@yyy.com"
+                    className="w-full rounded-lg border border-white/45 bg-[#030407] px-4 py-3 text-sm font-medium text-white placeholder:text-neutral-400 caret-ember shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition-all duration-300 focus:border-ember focus:bg-[#030407] focus:outline-none focus:ring-2 focus:ring-ember/50 backdrop-blur-sm"
                   />
                 </div>
               </div>
-
-              {/* Channel Selection */}
-              <div>
-                <label className="mb-2 flex items-center justify-between label-mono text-[10px] text-neutral-300 font-medium drop-shadow-sm">
-                  <span>03 // SELECT TRANSMISSION CHANNEL</span>
-                  <span className="text-neutral-400 text-[9px]">RESEND ROUTED</span>
-                </label>
-                <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-                  {CHANNELS.map((ch) => {
-                    const isSelected = formData.subject === ch.id;
-                    return (
-                      <button
-                        key={ch.id}
-                        type="button"
-                        onClick={() => {
-                          setFormData({ ...formData, subject: ch.id });
-                          setActiveField("subject");
-                        }}
-                        className={`rounded-lg border p-3 text-left transition-all duration-300 cursor-pointer backdrop-blur-sm ${
-                          isSelected
-                            ? "border-white bg-white/20 text-white font-semibold shadow-[0_0_20px_rgba(255,255,255,0.25)]"
-                            : "border-white/15 bg-black/40 text-neutral-400 hover:border-white/40 hover:bg-white/[0.06] hover:text-white"
-                        }`}
-                      >
-                        <span className="label-mono text-[10px] font-medium leading-tight">{ch.label}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
               {/* Message Textarea */}
               <div>
                 <div className="mb-1.5 flex items-center justify-between label-mono text-[10px] text-neutral-300 font-medium drop-shadow-sm">
@@ -417,7 +381,7 @@ export function ContactFormModal({ isOpen, onClose }: ContactFormModalProps) {
                   onBlur={() => setActiveField(null)}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   placeholder="Outline your project scope, vision, timeline, or rough idea..."
-                  className="w-full resize-none rounded-lg border border-white/20 bg-black/50 px-4 py-3 text-sm text-white placeholder:text-neutral-500 transition-all duration-300 focus:border-white focus:bg-black/80 focus:outline-none focus:ring-2 focus:ring-white/25 backdrop-blur-sm"
+                  className="w-full resize-none rounded-lg border border-white/45 bg-[#030407] px-4 py-3 text-sm font-medium text-white placeholder:text-neutral-400 caret-ember shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition-all duration-300 focus:border-ember focus:bg-[#030407] focus:outline-none focus:ring-2 focus:ring-ember/50 backdrop-blur-sm"
                 />
                 <div className="mt-1.5 h-1 w-full overflow-hidden rounded-full bg-white/15">
                   <div
@@ -437,15 +401,20 @@ export function ContactFormModal({ isOpen, onClose }: ContactFormModalProps) {
                 </div>
               )}
 
+              {status === "success" && (
+                <div
+                  role="status"
+                  className="rounded-lg border border-emerald-400/45 bg-emerald-950/45 p-3.5 text-emerald-100 animate-in fade-in backdrop-blur-md"
+                >
+                  <p className="label-mono text-xs font-semibold">SIGNAL TRANSMITTED</p>
+                  <p className="mt-1 text-[11px] leading-relaxed text-emerald-200">
+                    Your message is on its way. Use the X to close this form when you’re ready.
+                  </p>
+                </div>
+              )}
+
               {/* Footer Actions */}
               <div className="flex flex-wrap items-center justify-between gap-4 border-t border-white/15 pt-4">
-                <div className="flex items-center gap-4 text-[10px] label-mono text-neutral-400">
-                  <a href="/privacy" target="_blank" className="transition-colors text-neutral-200 font-semibold hover:text-white underline underline-offset-2">
-                    Privacy Policy
-                  </a>
-                  <span>● Encrypted Via Resend</span>
-                </div>
-
                 <button
                   type="submit"
                   disabled={status === "submitting"}
@@ -454,12 +423,11 @@ export function ContactFormModal({ isOpen, onClose }: ContactFormModalProps) {
                   {status === "submitting" ? (
                     <>
                       <span className="h-3.5 w-3.5 rounded-full border-2 border-current border-t-transparent animate-spin" />
-                      <span>WEAVING TRANSMISSION...</span>
+                      <span>WEAVING MESSAGE...</span>
                     </>
                   ) : (
                     <>
-                      <span className="relative z-10">[ TRANSMIT SIGNAL ]</span>
-                      <span className="relative z-10 text-sm transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
+                      <span className="relative z-10">[ SEND MESSAGE ]</span>
                     </>
                   )}
                 </button>

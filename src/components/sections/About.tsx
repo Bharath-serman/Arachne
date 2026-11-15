@@ -218,21 +218,16 @@ export function About() {
 
         <div className="about-foot mt-[18vh] grid gap-12 border-t border-border pt-12 md:grid-cols-3">
           <p className="text-lg leading-relaxed text-muted-foreground">
-            Founded in a rented broadcast studio, we still cut on tape before we
-            cut on timeline. Everything else is new.
+            Pursued B.E Computer science and design at RMK Engineering college.
           </p>
           <p className="text-lg leading-relaxed text-muted-foreground">
-            Film, interface, sound and light — one continuous shot from first frame
-            to final transmission.
+            Currently working as an XR Game Tester at VRARRI.
           </p>
           <div className="flex flex-col gap-4">
             <span className="label-mono">Currently</span>
             <p className="font-display text-2xl font-light text-foreground/85">
-              Open for select commissions — 2026
+              Open for Game Dev Opportunities - 2026
             </p>
-            <a href="#contact" className="label-mono text-mint/80 transition-colors duration-300 hover:text-mint">
-              Jump to the open line ↓
-            </a>
           </div>
         </div>
       </div>

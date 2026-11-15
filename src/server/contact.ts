@@ -258,7 +258,7 @@ export const sendContactMessage = createServerFn({ method: "POST" })
 
       return {
         success: true,
-        message: "Signal transmitted to studio inbox via Resend!",
+        message: "Message successfully transmitted.",
       };
     } catch (err: unknown) {
       console.error("Transmission Error:", err);
