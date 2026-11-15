@@ -115,7 +115,7 @@ export function ContactForm({ onClose, isModal = false }: ContactFormProps) {
             onBlur={() => setActiveField(null)}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             placeholder="e.g. Peter Parker"
-            className="w-full rounded-md border border-white/20 bg-black/50 px-3.5 py-2.5 text-sm text-white placeholder:text-neutral-500 focus:border-white focus:bg-black/80 focus:outline-none focus:ring-2 focus:ring-white/25 transition-all backdrop-blur-sm"
+            className="w-full rounded-md border border-white/45 bg-[#030407] px-3.5 py-2.5 text-sm font-medium text-white placeholder:text-neutral-400 caret-ember shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] focus:border-ember focus:bg-[#030407] focus:outline-none focus:ring-2 focus:ring-ember/50 transition-all backdrop-blur-sm"
           />
         </div>
 
@@ -133,7 +133,7 @@ export function ContactForm({ onClose, isModal = false }: ContactFormProps) {
             onBlur={() => setActiveField(null)}
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             placeholder="name@domain.com"
-            className="w-full rounded-md border border-white/20 bg-black/50 px-3.5 py-2.5 text-sm text-white placeholder:text-neutral-500 focus:border-white focus:bg-black/80 focus:outline-none focus:ring-2 focus:ring-white/25 transition-all backdrop-blur-sm"
+            className="w-full rounded-md border border-white/45 bg-[#030407] px-3.5 py-2.5 text-sm font-medium text-white placeholder:text-neutral-400 caret-ember shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] focus:border-ember focus:bg-[#030407] focus:outline-none focus:ring-2 focus:ring-ember/50 transition-all backdrop-blur-sm"
           />
         </div>
 
@@ -147,7 +147,7 @@ export function ContactForm({ onClose, isModal = false }: ContactFormProps) {
             onFocus={() => setActiveField("subject")}
             onBlur={() => setActiveField(null)}
             onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-            className="w-full rounded-md border border-white/20 bg-black/50 px-3.5 py-2.5 text-sm text-white focus:border-white focus:bg-black/80 focus:outline-none focus:ring-2 focus:ring-white/25 transition-all backdrop-blur-sm"
+            className="w-full rounded-md border border-white/45 bg-[#030407] px-3.5 py-2.5 text-sm font-medium text-white caret-ember shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] focus:border-ember focus:bg-[#030407] focus:outline-none focus:ring-2 focus:ring-ember/50 transition-all backdrop-blur-sm"
           >
             <option value="Web Experience & Motion" className="bg-neutral-900 text-white">Web Experience & 3D Interactive</option>
             <option value="Cinematic Film & Sequence" className="bg-neutral-900 text-white">Cinematic Film & Sequence</option>
@@ -170,7 +170,7 @@ export function ContactForm({ onClose, isModal = false }: ContactFormProps) {
             onBlur={() => setActiveField(null)}
             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
             placeholder="Describe your project, timeline, or idea..."
-            className="w-full resize-none rounded-md border border-white/20 bg-black/50 px-3.5 py-2.5 text-sm text-white placeholder:text-neutral-500 focus:border-white focus:bg-black/80 focus:outline-none focus:ring-2 focus:ring-white/25 transition-all backdrop-blur-sm"
+            className="w-full resize-none rounded-md border border-white/45 bg-[#030407] px-3.5 py-2.5 text-sm font-medium text-white placeholder:text-neutral-400 caret-ember shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] focus:border-ember focus:bg-[#030407] focus:outline-none focus:ring-2 focus:ring-ember/50 transition-all backdrop-blur-sm"
           />
           <div className="mt-1.5 h-1 w-full overflow-hidden rounded-full bg-white/15">
             <div

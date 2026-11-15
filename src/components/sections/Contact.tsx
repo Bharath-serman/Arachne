@@ -18,6 +18,23 @@ const SOCIALS = [
 
 ];
 
+const STAGE_LABEL_ALIGNMENT = [
+  "",
+  "",
+  "md:justify-end",
+  "md:justify-end",
+  "md:justify-center",
+  "justify-center",
+];
+const STAGE_DETAIL_ALIGNMENT = [
+  "",
+  "",
+  "md:ml-auto",
+  "md:ml-auto",
+  "md:mx-auto",
+  "mx-auto",
+];
+
 function SilkWatermark() {
   const paths = [
     "M 48 302 C 242 130, 410 244, 590 334 S 942 492, 1166 196",
@@ -147,10 +164,10 @@ export function Contact() {
           ))}
         </div>
 
-        <div className="relative z-20 mx-auto h-full max-w-[100rem] px-6 py-7 md:px-10 md:py-9 flex flex-col justify-between">
+        <div className="relative z-20 mx-auto h-full max-w-[100rem] px-6 pt-16 pb-7 md:px-10 md:pt-20 md:pb-9 flex flex-col justify-between">
           <header className="flex items-center justify-between text-[10px] font-medium uppercase tracking-[0.22em] text-foreground/75">
             <span>Transmission / 04</span>
-            <span className="text-mint font-semibold">● Studio correspondence</span>
+            <span className="text-mint font-semibold">Contact Details</span>
           </header>
 
           <div className="relative my-auto h-[65%] w-full">
@@ -158,7 +175,7 @@ export function Contact() {
             <div className="relative grid h-full grid-cols-2 grid-rows-[.8fr_.8fr_1.55fr_.72fr] gap-x-6 gap-y-3 md:grid-cols-12 md:grid-rows-[.8fr_.9fr_1.55fr_.72fr] md:gap-x-12 md:gap-y-5">
               {STAGES.map((item, index) => (
                 <article key={item.letter} className={`correspondence-piece relative min-w-0 border-t border-white/25 pt-2.5 md:pt-3 ${pieceClass[index]}`}>
-                  <div className={`mb-3 flex items-center gap-3 ${index === 2 || index === 3 || index === 5 ? "md:justify-end" : index === 4 ? "md:justify-center" : ""}`}>
+                  <div className={`mb-3 flex items-center gap-3 ${STAGE_LABEL_ALIGNMENT[index]}`}>
                     <span className="label-mono text-ember">{item.letter}</span>
                     <span className="label-mono text-foreground/55">{item.code} / {item.label}</span>
                   </div>
@@ -169,7 +186,11 @@ export function Contact() {
                     <h3 className="font-display text-[clamp(1rem,1.55vw,1.55rem)] font-light text-foreground/95">{item.title}</h3>
                   )}
 
-                  <p className={`mt-2 text-[11px] leading-relaxed text-muted-foreground ${index === 2 || index === 3 || index === 5 ? "md:ml-auto" : index === 4 ? "md:mx-auto" : ""} max-w-[20rem]`}>{item.detail}</p>
+                  <p
+                    className={`mt-2 text-[11px] leading-relaxed text-muted-foreground ${STAGE_DETAIL_ALIGNMENT[index]} max-w-[20rem]`}
+                  >
+                    {item.detail}
+                  </p>
                   
                   {index === 2 && (
                     <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 md:justify-end">
@@ -196,7 +217,7 @@ export function Contact() {
             <div className="flex items-center gap-6">
               <a
                 href="/privacy"
-                className="rounded-full border border-mint/80 bg-mint/15 px-4 py-1.5 label-mono text-xs font-bold text-mint transition-all duration-300 hover:bg-mint hover:text-black shadow-[0_0_16px_rgba(0,245,212,0.6)] cursor-pointer"
+                className="inline-flex items-center justify-center whitespace-nowrap rounded-full border border-mint bg-mint px-5 py-2.5 font-mono text-xs font-bold tracking-[0.2em] text-black shadow-[0_0_22px_rgba(0,245,212,0.5)] transition-all duration-300 hover:-translate-y-0.5 hover:border-white hover:bg-white hover:shadow-[0_0_26px_rgba(255,255,255,0.55)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-mint cursor-pointer"
               >
                 PRIVACY POLICY
               </a>

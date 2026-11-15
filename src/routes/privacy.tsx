@@ -1099,7 +1099,7 @@ function PrivacyPolicy() {
 
         {/* Footer */}
         <footer className="mx-auto flex max-w-[90rem] items-center justify-between border-t border-white/15 px-6 py-8 text-[14px] uppercase tracking-[0.18em] text-foreground/60 md:px-10">
-          <span>ARACHNÉ — Privacy Governance / 2026</span>
+          <span>ARACHNÉ — Privacy Policy / 2026</span>
           <button
             onClick={handleReturn}
             type="button"
