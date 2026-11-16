@@ -521,10 +521,6 @@ function HeroGovernanceWidget() {
         {/* Card Header with Status */}
         <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
           <div className="flex items-center gap-2.5">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-mint opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-mint" />
-            </span>
             <span className="label-mono text-xs font-semibold text-mint tracking-[0.2em]">
               Datas Used in this site
             </span>
@@ -534,30 +530,26 @@ function HeroGovernanceWidget() {
         {/* Telemetry Metrics Grid */}
         <div className="grid grid-cols-2 gap-3 mb-4">
           <div className="rounded border border-white/10 bg-white/[0.03] p-3">
-            <span className="label-mono text-[9px] text-foreground/50 block">TLS DISPATCH</span>
+            <span className="label-mono text-[9px] text-foreground/50 block">MAIL SENDING...</span>
             <span className="font-mono text-xs font-semibold text-foreground/90 mt-0.5 flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-mint" />
               RESEND API
             </span>
           </div>
           <div className="rounded border border-white/10 bg-white/[0.03] p-3">
             <span className="label-mono text-[9px] text-foreground/50 block">WEBGL MEMORY</span>
             <span className="font-mono text-xs font-semibold text-foreground/90 mt-0.5 flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-mint" />
               LOCAL ZERO-LOG
             </span>
           </div>
           <div className="rounded border border-white/10 bg-white/[0.03] p-3">
             <span className="label-mono text-[9px] text-foreground/50 block">COOKIES / ADS</span>
             <span className="font-mono text-xs font-semibold text-ember mt-0.5 flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-ember" />
               100% EXCLUDED
             </span>
           </div>
           <div className="rounded border border-white/10 bg-white/[0.03] p-3">
             <span className="label-mono text-[9px] text-foreground/50 block">COMPLIANCE</span>
             <span className="font-mono text-xs font-semibold text-foreground/90 mt-0.5 flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-mint" />
               GDPR & CCPA
             </span>
           </div>
@@ -901,11 +893,10 @@ function PrivacyPolicy() {
                 <HangingHeroHeading />
               </div>
               <p className="mt-6 max-w-2xl text-base leading-relaxed text-foreground/90 md:text-lg font-light">
-                Detailed breakdown of data collected across our broadcast interface and contact
-                signal handlers.
+                Detailed breakdown of data collected across the ARACHNÉ website, including contact form submissions.
               </p>
               <p className="mt-2 label-mono text-xs text-foreground/60">
-                Effective Date: August 2026 / Version 1.2
+                Last Updated: November 2026
               </p>
             </div>
 
@@ -962,7 +953,7 @@ function PrivacyPolicy() {
                   title="Information Collected via Contact Form"
                 />
                 <p className="text-base md:text-lg leading-relaxed text-foreground/90 font-light">
-                  When you submit a message or project brief through our studio contact form, we
+                  When you submit a message or project brief through our contact form, we
                   collect specific personal data required to respond to your inquiry:
                 </p>
                 <ul className="mt-4 space-y-3.5 rounded-md border border-white/15 bg-black/50 p-6 text-sm md:text-base leading-relaxed text-foreground/90 backdrop-blur-sm">
@@ -977,14 +968,7 @@ function PrivacyPolicy() {
                     <span className="text-ember font-bold text-base">•</span>
                     <span>
                       <strong className="text-white font-medium">Email Address:</strong> Used
-                      strictly to deliver studio replies to your inbox.
-                    </span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <span className="text-ember font-bold text-base">•</span>
-                    <span>
-                      <strong className="text-white font-medium">Channel / Subject:</strong>{" "}
-                      Selected project domain (e.g., Web Experience, Motion Film, Brand).
+                      strictly to deliver replies to your inbox.
                     </span>
                   </li>
                   <li className="flex items-start gap-3">
@@ -1008,9 +992,9 @@ function PrivacyPolicy() {
               <article id="resend-integration" className="space-y-4 border-b border-white/15 pb-12">
                 <HangingSectionHeading number="02 /" title="Email Dispatch Service (Resend)" />
                 <p className="text-base md:text-lg leading-relaxed text-foreground/90 font-light">
-                  Contact form messages are transmitted to our official studio email inbox (
+                  Contact form messages are transmitted to our official email inbox (
                   <code className="text-mint font-mono font-semibold text-sm md:text-base">
-                    studio@arachne.tv
+                    bharathserman@gmail.com
                   </code>
                   ) via <strong className="text-white font-medium">Resend</strong>, an
                   enterprise-grade email delivery service API.
@@ -1087,7 +1071,7 @@ function PrivacyPolicy() {
                 <HangingSectionHeading number="05 /" title="Contact Privacy Officer" />
                 <p className="text-base md:text-lg leading-relaxed text-foreground/90 font-light">
                   For questions regarding this privacy notice or to request data removal, please
-                  contact our studio privacy desk:
+                  contact the privacy desk:
                 </p>
                 <div className="rounded-md border border-white/30 bg-white/1 px-5 py-3.5 label-mono text-sm md:text-base text-ember inline-block backdrop-blur-sm font-semibold tracking-wide">
                   EMAIL: bharathserman@gmail.com

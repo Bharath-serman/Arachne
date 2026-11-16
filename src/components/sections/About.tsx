@@ -171,7 +171,7 @@ export function About() {
   return (
     <section ref={stage} className="relative overflow-hidden bg-void/70 py-[24vh]">
       <div className="mx-auto max-w-[86rem] px-6">
-        <p className="label-mono mb-16">About the studio</p>
+        <p className="label-mono mb-16">Arachnophobia</p>
         <h2
           ref={statement}
           className="about-statement relative max-w-none [perspective:1350px] [transform-style:preserve-3d] font-display text-[clamp(2.4rem,7vw,7rem)] font-extralight leading-[0.92] text-foreground/90"

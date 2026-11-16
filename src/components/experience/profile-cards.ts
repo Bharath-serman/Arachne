@@ -6,9 +6,9 @@ export const PROFILE_CARDS: CardContent[] = [
     kicker: "Strand 01 — Profile",
     title: "About me",
     lines: [
-      "Unity developer and XR Game Tester",
+      "Unity game developer and XR Game Tester",
       "Working with Unity and C#",
-      "Architecting full-stack websites using AI.",
+      "Architecting full-stack websites using AI tools and frameworks .",
     ],
   },
   {

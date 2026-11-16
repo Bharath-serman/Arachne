@@ -14,7 +14,7 @@ const ENTRIES: Entry[] = [
     role: "XR Game Tester",
     place: "VRARRI",
     detail: "Tested and provided feedback on various XR games, ensuring optimal performance and user experience.",
-    tags: ["XR", "Game Testing", "Quality Assu"],
+    tags: ["XR", "Game Testing", "Quality Assurance"],
   },
   {
     year: "2024",
@@ -22,6 +22,13 @@ const ENTRIES: Entry[] = [
     place: "Chennai Metro Rail Limited — Chennai",
     detail: "Worked on the development of a web-based Travel Planner application for that shows the Fare and other details of the Chennai Metro Rail System.",
     tags: ["Travel Planner", "CMRL", "Website Features"],
+  },
+  {
+    year: "2022",
+    role: "B.E Computer Science and Design",
+    place: "R.M.K Engineering College — Kavaraipettai",
+    detail: "Pursued a Bachelor's degree in Computer Science and Design, focusing on software development, design principles, and emerging XR technologies.",
+    tags: ["Computer Science", "Engineering", "Bachelor's Degree"],
   },
 ];
 
@@ -96,10 +103,10 @@ export function Experience() {
       <div className="mx-auto w-full max-w-[100rem] px-6 md:px-10">
         <div className="mb-[8vh] flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="label-mono mb-4 text-mint/75">Archive / skyline web facade</p>
+            <p className="label-mono mb-4 text-mint/75">Timeline</p>
             <h2 className="experience-title font-display text-5xl font-extralight text-foreground/90 md:text-7xl">Experience</h2>
           </div>
-          <span className="experience-readout label-mono max-w-xs text-foreground/60">Four rooms. One city web. Scroll past the windows to open each chapter.</span>
+          <span className="experience-readout label-mono max-w-xs text-foreground/60">Four sections.Scroll past the sections to open each chapter.</span>
         </div>
 
         <div className="grid items-center gap-10 lg:grid-cols-[1.28fr_0.72fr] lg:gap-14">
@@ -131,8 +138,7 @@ export function Experience() {
                   </button>
                 );
               })}
-              <div className="pointer-events-none absolute bottom-5 left-5 label-mono text-[9px] text-foreground/50">EAST FACADE / 4 FLOORS / WEB TENSION 100%</div>
-              <div className="pointer-events-none absolute right-5 top-5 label-mono text-[9px] text-mint/70">NIGHT MODE / ACTIVE</div>
+              <div className="pointer-events-none absolute bottom-5 left-5 label-mono text-[9px] text-foreground/50">Bachelor Degree Holder</div>
             </div>
           </div>
 
@@ -140,7 +146,7 @@ export function Experience() {
             <div className="relative overflow-hidden border border-white/20 bg-void/72 px-7 py-8 backdrop-blur-md md:px-9 md:py-10" style={{ clipPath: "polygon(0 28px,28px 0,100% 0,100% calc(100% - 28px),calc(100% - 28px) 100%,0 100%)", boxShadow: "0 0 82px -30px rgba(220,234,239,.32), inset 0 0 76px -45px rgba(184,39,27,.66)" }}>
               <div className="scanlines pointer-events-none absolute inset-0 opacity-20" />
               <span className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-foreground/70 to-transparent" />
-              <p className="exp-swap label-mono mb-4 text-mint/80">Window file / {entry.year}</p>
+              <p className="exp-swap label-mono mb-4 text-mint/80">Experience / {entry.year}</p>
               <h3 className="exp-swap font-display text-4xl font-light leading-[0.95] text-foreground/95 md:text-5xl">{entry.role}</h3>
               <p className="exp-swap mt-4 label-mono text-foreground/55">{entry.place}</p>
               <p className="exp-swap mt-6 text-lg leading-relaxed text-muted-foreground">{entry.detail}</p>
