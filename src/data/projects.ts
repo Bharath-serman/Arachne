@@ -1,7 +1,13 @@
-import case1 from "@/assets/case-1.jpg";
-import case2 from "@/assets/case-2.jpg";
-import case3 from "@/assets/case-3.jpg";
-import case4 from "@/assets/case-4.jpg";
+import Balloon from "@/assets/Balloon.png";
+import BlackHole from "@/assets/BlackHole.jpg";
+import MiniMayhem from "@/assets/Mini_Mayhem.png";
+import MusashiKana from "@/assets/Musashi_Kana.png";
+import SceneScentry from "@/assets/SceneScentry.png";
+import Verdantia from "@/assets/Verdantia.png";
+import UnityPortfolio from "@/assets/Unity_Portfolio.png";
+import VRMasculinity from "@/assets/VR_Masculinity.png";
+import ECommerce from "@/assets/Ecommerce.png";
+import TGV from "@/assets/TGV.png";
 
 export type Project = {
   slug: string;
@@ -24,7 +30,7 @@ export const PROJECTS: Project[] = [
     title: "VR-Black Hole",
     client: "Virtual Reality",
     year: "2025",
-    img: case1,
+    img: BlackHole,
     tag: "Black Hole",
     note: "An VR simulation fo falling into a black hole.",
     overview: "Black Hole is a virtual reality experience that simulates the journey of falling into a black hole, allowing users to explore the physics and visual phenomena associated with these cosmic entities.",
@@ -38,7 +44,7 @@ export const PROJECTS: Project[] = [
     title: "Verdantia",
     client: "Augmented Reality",
     year: "2026",
-    img: case2,
+    img: Verdantia,
     tag: "AR-Garden",
     note: "An augmented reality experience that responds to user interaction.",
     overview: "Verdantia is an augmented reality experience that allows users to interact with a virtual garden props and sea fishes.",
@@ -52,7 +58,7 @@ export const PROJECTS: Project[] = [
     title: "The Green Void",
     client: "3D Game",
     year: "2025",
-    img: case3,
+    img: TGV,
     tag: "Thrilling Experience",
     note: "A 3D game that explores the concept of a green void.",
     overview: "The Green Void is a 3D game that immerses players in a mysterious green void, exploring themes of isolation and discovery.",
@@ -66,7 +72,7 @@ export const PROJECTS: Project[] = [
     title: "SceneScentry-Plugin",
     client: "Unity Plugin",
     year: "2026",
-    img: case4,
+    img: SceneScentry,
     tag: "Unity Plugin",
     note: "An Scene Management plugin for Unity Engine.",
     overview: "SceneScentry is a Unity plugin designed to enhance scene management within the Unity Engine, providing developers with tools to streamline their workflow and improve project organization.",
@@ -80,7 +86,7 @@ export const PROJECTS: Project[] = [
     title: "Unity Portfolio",
     client: "Unity Project",
     year: "2025",
-    img: case4,
+    img: UnityPortfolio,
     tag: "Unity Portfolio",
     note: "A Unity project showcasing a portfolio of mine.",
     overview: "The Unity Portfolio is a 3D project that showcases a collection of my work, demonstrating my skills and experience in Unity development.",
@@ -94,7 +100,7 @@ export const PROJECTS: Project[] = [
     title: "E-Commerce Site",
     client: "Web Development",
     year: "2026",
-    img: case2,
+    img: ECommerce,
     tag: "E-Commerce",
     note: "A modern e-commerce website for selling products online.",
     overview: "The E-Commerce Site is a responsive web application designed to provide users with a seamless shopping experience, featuring product listings, cart functionality, and a secure checkout process.",
@@ -108,7 +114,7 @@ export const PROJECTS: Project[] = [
     title: "Musashi-Kana",
     client: "Web Development",
     year: "2025",
-    img: case1,
+    img: MusashiKana,
     tag: "Web Application",
     note: "A web application for learning and practicing Japanese N5 and N4 level.",
     overview: "Musashi-Kana is a web application designed to help users learn and practice Japanese kana characters, specifically targeting the N5 and N4 levels of the Japanese Language Proficiency Test (JLPT). The application provides interactive exercises, quizzes, and visual aids to enhance the learning experience.",
@@ -122,7 +128,7 @@ export const PROJECTS: Project[] = [
     title: "VR_Masculinity",
     client: "Unreal Engine VR",
     year: "2026",
-    img: case4,
+    img: VRMasculinity,
     tag: "Unreal Engine VR",
     note: "A virtual reality application exploring themes of masculinity and identity.",
     overview: "VR_Masculinity is a virtual reality experience designed to explore and challenge traditional notions of masculinity, providing users with immersive scenarios that encourage reflection and dialogue.",
@@ -136,7 +142,7 @@ export const PROJECTS: Project[] = [
     title: "Mini-Mayhem",
     client: "MR Game Development",
     year: "2026",
-    img: case4,
+    img: MiniMayhem,
     tag: "MR Game",
     note: "A mixed reality game where we shoot enemies.",
     overview: "Mini-Mayhem is a mixed reality game that allows players to shoot and defeat enemies.",

@@ -171,34 +171,6 @@ export function Hero() {
           ref={heroType}
           className="hero-type relative mx-auto w-full max-w-[96rem] will-change-transform pointer-events-auto"
         >
-          <h1 className="font-display text-[clamp(2.4rem,7vw,7.8rem)] font-light leading-[0.9] tracking-[-0.04em] text-foreground/95">
-            <span className="block overflow-visible">
-              <span
-                ref={line1}
-                data-primary-line
-                className="hero-word inline-block"
-              >
-                BRIDGING REALITY
-              </span>{" "}
-              <span className="hero-word inline-block bg-gradient-to-r from-mint via-teal-300 to-cyan-400 bg-clip-text text-transparent font-normal">
-                &amp; CODE
-              </span>
-            </span>
-
-            <span className="mt-1 block md:pl-[6vw]">
-              <span
-                ref={line2}
-                data-primary-line
-                className="hero-word inline-block font-extralight text-foreground/80"
-              >
-                THROUGH
-              </span>{" "}
-              <span className="hero-word inline-block font-serif italic text-ember">
-                SILK &amp; GENETICS
-              </span>
-            </span>
-          </h1>
-
           <div
             ref={meta}
             className="mt-10 flex flex-col gap-6 border-t border-white/10 pt-6 md:flex-row md:items-end md:justify-between"

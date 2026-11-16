@@ -117,11 +117,8 @@ export function Cases() {
           <div className="frame-gallery-caption grid grid-cols-1 gap-5 border-t border-white/20 pt-5 md:grid-cols-12 md:items-end">
             <div className="md:col-span-2"><p className="label-mono text-mint/80">Folio 0{active + 1} / 04</p><p className="mt-2 label-mono text-foreground/45">{selected.year}</p></div>
             <div className="md:col-span-6"><h3 className="font-display text-[clamp(2.25rem,4.4vw,5.4rem)] font-extralight leading-[.86] tracking-[-.055em] text-foreground/95">{selected.title}</h3><p className="mt-3 max-w-md text-sm leading-relaxed text-muted-foreground">{selected.note}</p></div>
-            <div className="md:col-span-4 md:pb-1 md:text-right"><p className="label-mono text-foreground/60">{selected.client} / {selected.tag}</p><a href={`/work/${selected.slug}`} onClick={handleCaseNavigation} className="mt-4 inline-flex border-b border-ember/75 pb-1 label-mono text-ember transition-colors hover:text-foreground">Open case file ↗</a></div>
+            <div className="md:col-span-4 md:pb-1 md:text-right"><p className="label-mono text-foreground/60">{selected.client} / {selected.tag}</p><a href={`/work/${selected.slug}`} onClick={handleCaseNavigation} className="mt-4 inline-flex border-b border-ember/75 pb-1 label-mono text-ember transition-colors hover:text-foreground">Open project</a></div>
           </div>
-          <nav aria-label="Project folios" className="mt-4 flex justify-between border-t border-white/10 pt-3">
-            {PROJECTS.map((project, index) => <a key={project.slug} href={`/work/${project.slug}`} onClick={handleCaseNavigation} className={`group flex items-center gap-2 label-mono transition-colors ${active === index ? "text-ember" : "text-foreground/42 hover:text-foreground"}`}><span className={`h-1.5 w-1.5 rounded-full transition-colors ${active === index ? "bg-ember shadow-[0_0_9px_rgba(222,49,29,1)]" : "bg-white/30 group-hover:bg-white"}`} />0{index + 1}<span className="hidden sm:inline"> / {project.title}</span></a>)}
-          </nav>
         </div>
       </div>
     </section>
